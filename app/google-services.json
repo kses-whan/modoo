@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "581443722541",
+    "firebase_url": "https://modoo-66b5b.firebaseio.com",
+    "project_id": "modoo-66b5b",
+    "storage_bucket": "modoo-66b5b.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:581443722541:android:1306dc27e1b7cf2e7fc7a4",
+        "android_client_info": {
+          "package_name": "com.icure.kses.modoo"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "581443722541-k1k0j3fh3u4ru71nnujr6ja158pm7u1h.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBKKpzP7_fH4lSfjx7LCN04DxhQ6jMQLPk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "581443722541-k1k0j3fh3u4ru71nnujr6ja158pm7u1h.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
