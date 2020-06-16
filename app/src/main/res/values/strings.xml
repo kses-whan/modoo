@@ -56,11 +56,15 @@
         slider -> clear data
     </string>
     <string name="play_again">Play Again</string>
-
     <string name="currency">\u20A9</string>
 
     <string name="login_google">구글계정으로 로그인</string>
-
-
     <string name="http_result_msg_error_e999">알수없는 오류</string>
+
+    <string name="menu_update">Refresh Main Content</string>
+    <string name="auto_update_prompt">Auto refresh?</string>
+    <string name="update_freq_prompt">Refresh Frequency</string>
+    <string name="min_price_prompt">Minimum Price</string>
+    <string name="menu_settings">Settings</string>
+
 </resources>

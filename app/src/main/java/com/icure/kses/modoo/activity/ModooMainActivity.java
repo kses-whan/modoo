@@ -44,8 +44,12 @@ public class ModooMainActivity extends AppCompatActivity
     implements NavigationView.OnNavigationItemSelectedListener{
 
     public static int notificationCountCart = 0;
+    public static int notificationPushMsg = 0;
     static ViewPager viewPager;
     static TabLayout tabLayout;
+
+    private static final int MENU_PREFERENCES = Menu.FIRST + 1;
+    private static final int SHOW_PREFERENCES = 1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -120,6 +124,9 @@ public class ModooMainActivity extends AppCompatActivity
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.main, menu);
+
+        menu.add(0, MENU_PREFERENCES, Menu.NONE, R.string.menu_settings);
+
         return true;
     }
 
@@ -127,8 +134,11 @@ public class ModooMainActivity extends AppCompatActivity
     public boolean onPrepareOptionsMenu(Menu menu) {
         // Get the notifications MenuItem and
         // its LayerDrawable (layer-list)
-        MenuItem item = menu.findItem(R.id.action_cart);
-        NotificationCountSetClass.setAddToCart(ModooMainActivity.this, item,notificationCountCart);
+        MenuItem itemCart = menu.findItem(R.id.action_cart);
+        NotificationCountSetClass.setAddToCart(ModooMainActivity.this, itemCart, notificationCountCart);
+
+        MenuItem itemPush = menu.findItem(R.id.action_notifications);
+        NotificationCountSetClass.setAddToPushMsg(ModooMainActivity.this, itemPush, notificationPushMsg);
         // force the ActionBar to relayout its MenuItems.
         // onCreateOptionsMenu(Menu) will be called again.
         invalidateOptionsMenu();
@@ -143,19 +153,23 @@ public class ModooMainActivity extends AppCompatActivity
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_search) {
-            startActivity(new Intent(ModooMainActivity.this, SearchResultActivity.class));
-            return true;
-        }else if (id == R.id.action_cart) {
-
-           /* NotificationCountSetClass.setAddToCart(MainActivity.this, item, notificationCount);
+        switch(id){
+            case R.id.action_search:
+                startActivity(new Intent(ModooMainActivity.this, SearchResultActivity.class));
+                return true;
+            case R.id.action_cart :
+                /* NotificationCountSetClass.setAddToCart(MainActivity.this, item, notificationCount);
             invalidateOptionsMenu();*/
-            startActivity(new Intent(ModooMainActivity.this, CartListActivity.class));
-
-           /* notificationCount=0;//clear notification count
-            invalidateOptionsMenu();*/
-            return true;
+                startActivity(new Intent(ModooMainActivity.this, CartListActivity.class));
+               /* notificationCount=0;//clear notification count
+                invalidateOptionsMenu();*/
+                return true;
+            case MENU_PREFERENCES :
+                Intent intent = new Intent(ModooMainActivity.this, ModooSettingsActivity.class);
+                startActivityForResult(intent, SHOW_PREFERENCES);
+                return true;
         }
+
         return super.onOptionsItemSelected(item);
     }
 

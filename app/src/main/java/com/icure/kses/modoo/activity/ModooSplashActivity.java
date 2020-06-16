@@ -11,10 +11,13 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.LinearLayout;
 
+import androidx.annotation.NonNull;
+
 import com.google.firebase.messaging.FirebaseMessaging;
 import com.icure.kses.modoo.R;
 import com.icure.kses.modoo.database.Modoo_DatabaseHelper;
 import com.icure.kses.modoo.log.Log4jHelper;
+import com.icure.kses.modoo.permission.ModooPermissionHelper;
 import com.icure.kses.modoo.push.FCMManager;
 
 public class ModooSplashActivity extends Activity implements Animation.AnimationListener {
@@ -72,9 +75,11 @@ public class ModooSplashActivity extends Activity implements Animation.Animation
 
     public void onAnimationEnd(Animation animation) {
             // Start Main Screen
+        if(ModooPermissionHelper.checkPermissions(this)){
             Intent i = new Intent(ModooSplashActivity.this, ModooWelcomeActivity.class);
             startActivity(i);
             this.finish();
+        }
     }
 
     @Override
@@ -87,4 +92,8 @@ public class ModooSplashActivity extends Activity implements Animation.Animation
         new FCMManager(this);
     }
 
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        ModooPermissionHelper.onRequestPermissionsResult(this, requestCode, permissions, grantResults);
+    }
 }

@@ -17,6 +17,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.facebook.drawee.view.SimpleDraweeView;
 import com.icure.kses.modoo.R;
 import com.icure.kses.modoo.activity.ModooMainActivity;
+import com.icure.kses.modoo.fragments.ImageListFragment;
 import com.icure.kses.modoo.product.ItemDetailsActivity;
 import com.icure.kses.modoo.utility.ModooDataUtils;
 import com.icure.kses.modoo.vo.ModooItemList;
@@ -96,7 +97,8 @@ public class CartListActivity extends AppCompatActivity {
                 @Override
                 public void onClick(View v) {
                     Intent intent = new Intent(mContext, ItemDetailsActivity.class);
-                    intent.putExtra(STRING_ITEM_CODE,mCartlist.get(position));
+                    intent.putExtra(ImageListFragment.STRING_ITEM_CODE, mCartlist.get(position).itemCode);
+                    intent.putExtra(ImageListFragment.STRING_IMAGE_URI, mCartlist.get(position).repImageUrl);
                     mContext.startActivity(intent);
                 }
             });
@@ -135,7 +137,7 @@ public class CartListActivity extends AppCompatActivity {
         LinearLayout layoutCartPayments = (LinearLayout) findViewById(R.id.layout_payment);
         LinearLayout layoutCartNoItems = (LinearLayout) findViewById(R.id.layout_cart_empty);
 
-        if(ModooMainActivity.notificationCountCart >0){
+        if(ModooMainActivity.notificationCountCart > 0){
             layoutCartNoItems.setVisibility(View.GONE);
             layoutCartItems.setVisibility(View.VISIBLE);
             layoutCartPayments.setVisibility(View.VISIBLE);

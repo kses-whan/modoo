@@ -144,11 +144,21 @@ public class ModooLoginActivity extends AppCompatActivity {
         mAuth = FirebaseAuth.getInstance();
 
         GoogleSignInAccount signInAccount = GoogleSignIn.getLastSignedInAccount(this);
+
         if(signInAccount != null){
+            Log.i("tagg","1111111");
             mGoogleSignInClient.silentSignIn().addOnCompleteListener(this, new OnCompleteListener<GoogleSignInAccount>() {
                 @Override
                 public void onComplete(@NonNull Task<GoogleSignInAccount> task) {
-                    firebaseAuthWithGoogle(task.getResult());
+                    try {
+                        // Google Sign In was successful, authenticate with Firebase
+                        GoogleSignInAccount account = task.getResult(ApiException.class);
+                        firebaseAuthWithGoogle(account);
+                    } catch (ApiException e) {
+                        // Google Sign In failed, update UI appropriately
+                        return;
+                    }
+
                 }
             });
         }
@@ -209,22 +219,32 @@ public class ModooLoginActivity extends AppCompatActivity {
     }
 
     private void firebaseAuthWithGoogle(GoogleSignInAccount acct) {
-        AuthCredential credential = GoogleAuthProvider.getCredential(acct.getIdToken(), null);
-        mAuth.signInWithCredential(credential)
-                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
-                    @Override
-                    public void onComplete(@NonNull Task<AuthResult> task) {
-                        if (task.isSuccessful()) {
-                            FirebaseUser user = mAuth.getCurrentUser();
-                            Log.i("tagg","google account info : " + user.getEmail());
-                            Toast.makeText(getApplicationContext(), "Complete", Toast.LENGTH_LONG).show();
-                            startMainActivity();
-                        } else {
-                            Log.w("tagg", "signInWithCredential:failure", task.getException());
-                            Toast.makeText(getApplicationContext(), "Authentication Failed", Toast.LENGTH_LONG).show();
+        try {
+            Log.i("tagg","44444444");
+            AuthCredential credential = GoogleAuthProvider.getCredential(acct.getIdToken(), null);
+            Log.i("tagg","55555555");
+            if (mAuth == null) return;
+
+            Log.i("tagg","66666666");
+            mAuth.signInWithCredential(credential)
+                    .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+                        @Override
+                        public void onComplete(@NonNull Task<AuthResult> task) {
+                            if (task.isSuccessful()) {
+                                FirebaseUser user = mAuth.getCurrentUser();
+                                Log.i("tagg", "google account info : " + user.getEmail());
+                                Toast.makeText(getApplicationContext(), "Complete", Toast.LENGTH_LONG).show();
+                                startMainActivity();
+                            } else {
+                                Log.w("tagg", "signInWithCredential:failure", task.getException());
+                                Toast.makeText(getApplicationContext(), "Authentication Failed", Toast.LENGTH_LONG).show();
+                            }
                         }
-                    }
-                });
+                    });
+        }catch(Exception e){
+            e.printStackTrace();
+            Log.i("tagg","ERROR : " + e.getMessage());
+        }
     }
 
 

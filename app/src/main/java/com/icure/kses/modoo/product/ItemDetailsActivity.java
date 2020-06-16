@@ -73,7 +73,9 @@ public class ItemDetailsActivity extends AppCompatActivity {
 //        Uri uri = Uri.parse(stringImageUri);
 //        mImageView.setImageURI(uri);
 
-        moDooViewModel = ViewModelProviders.of(this).get(ModooViewModel.class);
+        Log.i("tagg","getIntent stringItemCode : " + stringItemCode);
+
+        moDooViewModel = ViewModelProviders.of(ItemDetailsActivity.this).get(ModooViewModel.class);
         moDooViewModel.getItemDetailData(stringItemCode).observe(ItemDetailsActivity.this, new Observer<ModooItemWrapper>() {
             @Override
             public void onChanged(ModooItemWrapper modooItemWrapper) {

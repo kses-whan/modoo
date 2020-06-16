@@ -27,20 +27,27 @@ public class ModooViewModel extends AndroidViewModel {
     public LiveData<ModooItemWrapper> getItemListData(int category){
         if(itemListData == null){
             itemListData = new MutableLiveData<>();
-            loadItemListData(category);
         }
+        loadItemListData(category);
         return itemListData;
     }
 
     public LiveData<ModooItemWrapper> getItemDetailData(String itemCode){
-        if(itemDetailData == null){
+//        if(itemDetailData == null){
+//            itemDetailData = new MutableLiveData<>();
+//            loadItemDetailData(itemCode);
+//        }
+//        return itemDetailData;
+
+        if(itemDetailData == null) {
             itemDetailData = new MutableLiveData<>();
-            loadItemDetailData(itemCode);
         }
+        loadItemDetailData(itemCode);
         return itemDetailData;
     }
 
     public void loadItemDetailData(final String itemCode){
+        Log.i("tagg","loadItemDetailData : " + itemCode);
 
         Modoo_HttpPriorityAsync httpPriorityAsync = new Modoo_HttpPriorityAsync(
                 getApplication().getApplicationContext()
@@ -64,6 +71,7 @@ public class ModooViewModel extends AndroidViewModel {
                     }
 
                     if (item.resultCode.equalsIgnoreCase(Modoo_Api_Codes.API_RETURNCODE_SUCCESS)) {
+                        Log.i("tagg","API_RETURNCODE_SUCCESS : " + item.itemDetail.itemCode);
                         itemDetailData.setValue(item);
                     }
                 }catch(Exception e){
@@ -90,12 +98,14 @@ public class ModooViewModel extends AndroidViewModel {
                 try {
                     String resultStr = resultArr[0];
 
+                    Log.i("tagg","category : " + category);
                     // local test
                     resultStr = ModooDataUtils.getListDataTest(category);
                     //
-
+                    Log.i("tagg","resultStr : " + resultStr);
                     ModooItemWrapper item = new Gson().fromJson(resultStr, ModooItemWrapper.class);
                     if(item == null){
+                        Log.i("tagg","ERROR 111");
                         setError(Modoo_Api_Codes.API_RETURNCODE_UNKNOWN_ERROR);
                         return;
                     }
@@ -104,6 +114,7 @@ public class ModooViewModel extends AndroidViewModel {
                         itemListData.setValue(item);
                     }
                 }catch(Exception e){
+                    Log.i("tagg","ERROR 222");
                     setError(Modoo_Api_Codes.API_RETURNCODE_UNKNOWN_ERROR);
                 }
             }
