@@ -1,15 +1,16 @@
 package com.icure.kses.modoo.activity;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.preference.PreferenceManager;
 
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
@@ -28,6 +29,7 @@ import com.kakao.auth.ISessionCallback;
 import com.kakao.auth.Session;
 import com.kakao.network.ErrorResult;
 import com.kakao.usermgmt.UserManagement;
+import com.kakao.usermgmt.callback.LogoutResponseCallback;
 import com.kakao.usermgmt.callback.MeV2ResponseCallback;
 import com.kakao.usermgmt.response.MeV2Response;
 import com.kakao.usermgmt.response.model.Profile;
@@ -35,7 +37,11 @@ import com.kakao.usermgmt.response.model.UserAccount;
 import com.kakao.util.OptionalBoolean;
 import com.kakao.util.exception.KakaoException;
 
+import static com.icure.kses.modoo.activity.ModooSettingsActivity.PREF_AUTO_LOGIN;
+
 public class ModooLoginActivity extends AppCompatActivity {
+
+    boolean isAutoLogin = false;
 
     // 구글 로그인
     private TextView mSignInButton = null;
@@ -123,15 +129,24 @@ public class ModooLoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_modoo_login);
 
+        //자동로그인 확인
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
+        isAutoLogin = prefs.getBoolean(PREF_AUTO_LOGIN, false);
+
         // 카카오 로그인 세션 콜백 등록
         Session.getCurrentSession().addCallback(sessionCallback);
-        if(Session.getCurrentSession().checkAndImplicitOpen()){
-            return;
+        if(isAutoLogin) {
+            if (Session.getCurrentSession().checkAndImplicitOpen()) {
+                return;
+            }
         }
 
         // 구글 로그인
         mSignInButton = findViewById(R.id.btn_login_google);
         startGoggleLogin();
+
+        if(!isAutoLogin)
+            logoutAll();
     }
 
 
@@ -143,24 +158,25 @@ public class ModooLoginActivity extends AppCompatActivity {
         mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
         mAuth = FirebaseAuth.getInstance();
 
-        GoogleSignInAccount signInAccount = GoogleSignIn.getLastSignedInAccount(this);
+        if(isAutoLogin) {
+            GoogleSignInAccount signInAccount = GoogleSignIn.getLastSignedInAccount(this);
+            if (signInAccount != null) {
 
-        if(signInAccount != null){
-            Log.i("tagg","1111111");
-            mGoogleSignInClient.silentSignIn().addOnCompleteListener(this, new OnCompleteListener<GoogleSignInAccount>() {
-                @Override
-                public void onComplete(@NonNull Task<GoogleSignInAccount> task) {
-                    try {
-                        // Google Sign In was successful, authenticate with Firebase
-                        GoogleSignInAccount account = task.getResult(ApiException.class);
-                        firebaseAuthWithGoogle(account);
-                    } catch (ApiException e) {
-                        // Google Sign In failed, update UI appropriately
-                        return;
+                mGoogleSignInClient.silentSignIn().addOnCompleteListener(this, new OnCompleteListener<GoogleSignInAccount>() {
+                    @Override
+                    public void onComplete(@NonNull Task<GoogleSignInAccount> task) {
+                        try {
+                            // Google Sign In was successful, authenticate with Firebase
+                            GoogleSignInAccount account = task.getResult(ApiException.class);
+                            firebaseAuthWithGoogle(account);
+                        } catch (ApiException e) {
+                            // Google Sign In failed, update UI appropriately
+                            return;
+                        }
+
                     }
-
-                }
-            });
+                });
+            }
         }
 
         mSignInButton.setOnClickListener(new View.OnClickListener() {
@@ -213,37 +229,32 @@ public class ModooLoginActivity extends AppCompatActivity {
                 firebaseAuthWithGoogle(account);
             } catch (ApiException e) {
                 // Google Sign In failed, update UI appropriately
-                Toast.makeText(getApplicationContext(), "Google sign in Failed", Toast.LENGTH_LONG).show();
+//                Toast.makeText(getApplicationContext(), "Google sign in Failed", Toast.LENGTH_LONG).show();
             }
         }
     }
 
     private void firebaseAuthWithGoogle(GoogleSignInAccount acct) {
         try {
-            Log.i("tagg","44444444");
             AuthCredential credential = GoogleAuthProvider.getCredential(acct.getIdToken(), null);
-            Log.i("tagg","55555555");
             if (mAuth == null) return;
-
-            Log.i("tagg","66666666");
             mAuth.signInWithCredential(credential)
                     .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                         @Override
                         public void onComplete(@NonNull Task<AuthResult> task) {
                             if (task.isSuccessful()) {
                                 FirebaseUser user = mAuth.getCurrentUser();
-                                Log.i("tagg", "google account info : " + user.getEmail());
-                                Toast.makeText(getApplicationContext(), "Complete", Toast.LENGTH_LONG).show();
+//                                Log.i("tagg", "google account info : " + user.getEmail());
+//                                Toast.makeText(getApplicationContext(), "Complete", Toast.LENGTH_LONG).show();
                                 startMainActivity();
                             } else {
-                                Log.w("tagg", "signInWithCredential:failure", task.getException());
-                                Toast.makeText(getApplicationContext(), "Authentication Failed", Toast.LENGTH_LONG).show();
+//                                Log.w("tagg", "signInWithCredential:failure", task.getException());
+//                                Toast.makeText(getApplicationContext(), "Authentication Failed", Toast.LENGTH_LONG).show();
                             }
                         }
                     });
         }catch(Exception e){
-            e.printStackTrace();
-            Log.i("tagg","ERROR : " + e.getMessage());
+            Log.e("tagg","ERROR : " + e.getMessage());
         }
     }
 
@@ -255,7 +266,7 @@ public class ModooLoginActivity extends AppCompatActivity {
                 new OnCompleteListener<Void>() {
                     @Override
                     public void onComplete(@NonNull Task<Void> task) {
-                        Toast.makeText(getApplicationContext(), "Complete", Toast.LENGTH_LONG).show();
+//                        Toast.makeText(getApplicationContext(), "Complete", Toast.LENGTH_LONG).show();
                     }
                 });
     }
@@ -270,7 +281,7 @@ public class ModooLoginActivity extends AppCompatActivity {
                 new OnCompleteListener<Void>() {
                     @Override
                     public void onComplete(@NonNull Task<Void> task) {
-                        Toast.makeText(getApplicationContext(), "Complete", Toast.LENGTH_LONG).show();
+//                        Toast.makeText(getApplicationContext(), "Complete", Toast.LENGTH_LONG).show();
                     }
                 });
     }
@@ -279,6 +290,53 @@ public class ModooLoginActivity extends AppCompatActivity {
     @Override
     protected void onPause() {
         super.onPause();
+    }
+
+
+    private void logoutAll(){
+        UserManagement.getInstance()
+                .requestLogout(new LogoutResponseCallback() {
+                    @Override
+                    public void onCompleteLogout() {
+//                        Toast.makeText(getApplicationContext(), "onSuccess", Toast.LENGTH_LONG).show();
+                    }
+
+                    @Override
+                    public void onNotSignedUp() {
+//                        Toast.makeText(getApplicationContext(), "onNotSignedUp", Toast.LENGTH_LONG).show();
+                    }
+
+                    @Override
+                    public void onSessionClosed(ErrorResult errorResult) {
+//                        Toast.makeText(getApplicationContext(), "Kakao Session Closed", Toast.LENGTH_LONG).show();
+                    }
+
+                    @Override
+                    public void onSuccess(Long result) {
+//                        Toast.makeText(getApplicationContext(), "Kakao Logout Complete", Toast.LENGTH_LONG).show();
+                    }
+                });
+
+        FirebaseAuth.getInstance().signOut();
+
+//        GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+//                .requestIdToken(getString(R.string.default_web_client_id))
+//                .build();
+//        GoogleSignInClient mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
+//        mGoogleSignInClient.signOut().addOnCompleteListener(this, new OnCompleteListener<Void>() {
+//            @Override
+//            public void onComplete(@NonNull Task<Void> task) {
+//                Log.i("tagg", "구글 로그아웃 완료");
+//            }
+//        });
+
+        mGoogleSignInClient.signOut().addOnCompleteListener(this,
+                new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+//                        Toast.makeText(getApplicationContext(), "Google Logout Complete", Toast.LENGTH_LONG).show();
+                    }
+                });
     }
 
 }

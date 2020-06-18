@@ -1,6 +1,7 @@
 package com.icure.kses.modoo.options;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -10,6 +11,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.LinearLayout;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -18,13 +20,11 @@ import com.facebook.drawee.view.SimpleDraweeView;
 import com.icure.kses.modoo.R;
 import com.icure.kses.modoo.activity.ModooMainActivity;
 import com.icure.kses.modoo.fragments.ImageListFragment;
-import com.icure.kses.modoo.product.ItemDetailsActivity;
+import com.icure.kses.modoo.activity.ItemDetailsActivity;
 import com.icure.kses.modoo.utility.ModooDataUtils;
 import com.icure.kses.modoo.vo.ModooItemList;
 
 import java.util.ArrayList;
-
-import static com.icure.kses.modoo.fragments.ImageListFragment.STRING_ITEM_CODE;
 
 public class CartListActivity extends AppCompatActivity {
     private static Context mContext;
@@ -44,6 +44,24 @@ public class CartListActivity extends AppCompatActivity {
 
         recyclerView.setLayoutManager(recylerViewLayoutManager);
         recyclerView.setAdapter(new CartListActivity.SimpleStringRecyclerViewAdapter(recyclerView, cartlist));
+
+        Button payment = findViewById(R.id.btn_action_payment);
+        payment.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                new AlertDialog.Builder(CartListActivity.this)
+                        .setMessage(R.string.confirm_payment)
+                        .setPositiveButton(R.string.dialog_ok, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.dismiss();
+                            }
+                        })
+                        .setCancelable(true)
+                        .create()
+                        .show();
+            }
+        });
     }
 
     public static class SimpleStringRecyclerViewAdapter

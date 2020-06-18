@@ -2,9 +2,13 @@ package com.icure.kses.modoo.activity;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
+
+import androidx.preference.PreferenceManager;
+import androidx.preference.PreferenceScreen;
 import androidx.viewpager.widget.PagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 import androidx.appcompat.app.AppCompatActivity;
@@ -20,6 +24,8 @@ import android.widget.TextView;
 
 import com.icure.kses.modoo.R;
 import com.icure.kses.modoo.utility.PrefManager;
+
+import static com.icure.kses.modoo.activity.ModooSettingsActivity.PREF_AUTO_LOGIN;
 
 public class ModooWelcomeActivity extends AppCompatActivity {
 

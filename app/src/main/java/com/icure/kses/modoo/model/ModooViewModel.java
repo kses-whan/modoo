@@ -114,6 +114,7 @@ public class ModooViewModel extends AndroidViewModel {
                         itemListData.setValue(item);
                     }
                 }catch(Exception e){
+                    e.printStackTrace();
                     Log.i("tagg","ERROR 222");
                     setError(Modoo_Api_Codes.API_RETURNCODE_UNKNOWN_ERROR);
                 }

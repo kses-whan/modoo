@@ -1,4 +1,4 @@
-package com.icure.kses.modoo.product;
+package com.icure.kses.modoo.activity;
 
 import android.content.Intent;
 import android.os.Build;
@@ -24,7 +24,6 @@ import com.icure.kses.modoo.model.ModooItemWrapper;
 import com.icure.kses.modoo.model.ModooViewModel;
 import com.icure.kses.modoo.notification.NotificationCountSetClass;
 import com.icure.kses.modoo.options.CartListActivity;
-import com.icure.kses.modoo.activity.ModooMainActivity;
 import com.icure.kses.modoo.utility.ModooDataUtils;
 import com.icure.kses.modoo.vo.ModooItemDetail;
 import com.icure.kses.modoo.vo.ModooItemList;

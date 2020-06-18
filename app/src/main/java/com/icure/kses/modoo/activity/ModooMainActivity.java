@@ -8,6 +8,7 @@ import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.material.appbar.CollapsingToolbarLayout;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.tabs.TabLayout;
 
@@ -27,7 +28,9 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ImageView;
 
+import com.google.firebase.auth.FirebaseAuth;
 import com.icure.kses.modoo.R;
 import com.icure.kses.modoo.fragments.ImageListFragment;
 import com.icure.kses.modoo.notification.NotificationCountSetClass;
@@ -36,6 +39,7 @@ import com.icure.kses.modoo.options.SearchResultActivity;
 import com.icure.kses.modoo.options.WishlistActivity;
 import com.kakao.usermgmt.UserManagement;
 import com.kakao.usermgmt.callback.LogoutResponseCallback;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -47,6 +51,7 @@ public class ModooMainActivity extends AppCompatActivity
     public static int notificationPushMsg = 0;
     static ViewPager viewPager;
     static TabLayout tabLayout;
+//    static CollapsingToolbarLayout tabLayout;
 
     private static final int MENU_PREFERENCES = Menu.FIRST + 1;
     private static final int SHOW_PREFERENCES = 1;
@@ -68,38 +73,44 @@ public class ModooMainActivity extends AppCompatActivity
         navigationView.setNavigationItemSelectedListener(this);
 
          viewPager = (ViewPager) findViewById(R.id.viewpager);
-         tabLayout = (TabLayout) findViewById(R.id.tabs);
+         tabLayout = findViewById(R.id.tabs);
 
         if (viewPager != null) {
             setupViewPager(viewPager);
             tabLayout.setupWithViewPager(viewPager);
         }
 
+//        ImageView iv_toolbar = findViewById(R.id.iv_toolbar);
+//
+//        Picasso.with(iv_toolbar.getContext())
+//                .load("https://static.pexels.com/photos/33283/stack-of-books-vintage-books-book-books-medium.jpg")
+//                .noFade()
+//                .noPlaceholder()
+//                .into(iv_toolbar);
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-//                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-//                        .setAction("Action", null).show();
-                UserManagement.getInstance()
-                        .requestLogout(new LogoutResponseCallback() {
-                            @Override
-                            public void onCompleteLogout() {
-                                Log.i("tagg", "카카오톡 로그아웃 완료");
-                            }
-                        });
-
-                GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-                        .requestIdToken(getString(R.string.default_web_client_id))
-                        .build();
-                GoogleSignInClient mGoogleSignInClient = GoogleSignIn.getClient(ModooMainActivity.this, gso);
-                mGoogleSignInClient.signOut().addOnCompleteListener(ModooMainActivity.this, new OnCompleteListener<Void>() {
-                    @Override
-                    public void onComplete(@NonNull Task<Void> task) {
-                        Log.i("tagg", "구글 로그아웃 완료");
-                    }
-                });
+//                UserManagement.getInstance()
+//                        .requestLogout(new LogoutResponseCallback() {
+//                            @Override
+//                            public void onCompleteLogout() {
+//                                Log.i("tagg", "카카오톡 로그아웃 완료");
+//                            }
+//                        });
+//
+//                FirebaseAuth.getInstance().signOut();
+//                GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+//                        .requestIdToken(getString(R.string.default_web_client_id))
+//                        .build();
+//                GoogleSignInClient mGoogleSignInClient = GoogleSignIn.getClient(ModooMainActivity.this, gso);
+//                mGoogleSignInClient.signOut().addOnCompleteListener(ModooMainActivity.this, new OnCompleteListener<Void>() {
+//                    @Override
+//                    public void onComplete(@NonNull Task<Void> task) {
+//                        Log.i("tagg", "구글 로그아웃 완료");
+//                    }
+//                });
             }
         });
     }
@@ -185,26 +196,26 @@ public class ModooMainActivity extends AppCompatActivity
         bundle.putInt("type", 2);
         fragment.setArguments(bundle);
         adapter.addFragment(fragment, getString(R.string.item_2));
-        fragment = new ImageListFragment();
-        bundle = new Bundle();
-        bundle.putInt("type", 3);
-        fragment.setArguments(bundle);
-        adapter.addFragment(fragment, getString(R.string.item_3));
-        fragment = new ImageListFragment();
-        bundle = new Bundle();
-        bundle.putInt("type", 4);
-        fragment.setArguments(bundle);
-        adapter.addFragment(fragment, getString(R.string.item_4));
-        fragment = new ImageListFragment();
-        bundle = new Bundle();
-        bundle.putInt("type", 5);
-        fragment.setArguments(bundle);
-        adapter.addFragment(fragment, getString(R.string.item_5));
-        fragment = new ImageListFragment();
-        bundle = new Bundle();
-        bundle.putInt("type", 6);
-        fragment.setArguments(bundle);
-        adapter.addFragment(fragment, getString(R.string.item_6));
+//        fragment = new ImageListFragment();
+//        bundle = new Bundle();
+//        bundle.putInt("type", 3);
+//        fragment.setArguments(bundle);
+//        adapter.addFragment(fragment, getString(R.string.item_3));
+//        fragment = new ImageListFragment();
+//        bundle = new Bundle();
+//        bundle.putInt("type", 4);
+//        fragment.setArguments(bundle);
+//        adapter.addFragment(fragment, getString(R.string.item_4));
+//        fragment = new ImageListFragment();
+//        bundle = new Bundle();
+//        bundle.putInt("type", 5);
+//        fragment.setArguments(bundle);
+//        adapter.addFragment(fragment, getString(R.string.item_5));
+//        fragment = new ImageListFragment();
+//        bundle = new Bundle();
+//        bundle.putInt("type", 6);
+//        fragment.setArguments(bundle);
+//        adapter.addFragment(fragment, getString(R.string.item_6));
         viewPager.setAdapter(adapter);
     }
 
@@ -219,15 +230,17 @@ public class ModooMainActivity extends AppCompatActivity
             viewPager.setCurrentItem(0);
         } else if (id == R.id.nav_item2) {
             viewPager.setCurrentItem(1);
-        } else if (id == R.id.nav_item3) {
-            viewPager.setCurrentItem(2);
-        } else if (id == R.id.nav_item4) {
-            viewPager.setCurrentItem(3);
-        } else if (id == R.id.nav_item5) {
-            viewPager.setCurrentItem(4);
-        }else if (id == R.id.nav_item6) {
-            viewPager.setCurrentItem(5);
-        }else if (id == R.id.my_wishlist) {
+        }
+//        else if (id == R.id.nav_item3) {
+//            viewPager.setCurrentItem(2);
+//        } else if (id == R.id.nav_item4) {
+//            viewPager.setCurrentItem(3);
+//        } else if (id == R.id.nav_item5) {
+//            viewPager.setCurrentItem(4);
+//        }else if (id == R.id.nav_item6) {
+//            viewPager.setCurrentItem(5);
+//        }
+        else if (id == R.id.my_wishlist) {
             startActivity(new Intent(ModooMainActivity.this, WishlistActivity.class));
         }else if (id == R.id.my_cart) {
             startActivity(new Intent(ModooMainActivity.this, CartListActivity.class));
@@ -243,7 +256,8 @@ public class ModooMainActivity extends AppCompatActivity
         private final List<String> mFragmentTitles = new ArrayList<>();
 
         public Adapter(FragmentManager fm) {
-            super(fm);
+            super(fm, BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT);
+//            super(fm);
         }
 
         public void addFragment(Fragment fragment, String title) {

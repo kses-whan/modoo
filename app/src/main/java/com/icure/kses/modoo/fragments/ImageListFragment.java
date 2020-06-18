@@ -22,7 +22,6 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -44,13 +43,14 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import com.icure.kses.modoo.R;
 import com.icure.kses.modoo.activity.ModooMainActivity;
 import com.icure.kses.modoo.activity.ModooSettingsActivity;
+import com.icure.kses.modoo.adapter.SimpleStringRecyclerViewAdapter;
 import com.icure.kses.modoo.constant.Modoo_Api_Codes;
 import com.icure.kses.modoo.databinding.ListItemBinding;
-import com.icure.kses.modoo.vo.ModooItemList;
 import com.icure.kses.modoo.model.ModooItemWrapper;
 import com.icure.kses.modoo.model.ModooViewModel;
-import com.icure.kses.modoo.product.ItemDetailsActivity;
+import com.icure.kses.modoo.activity.ItemDetailsActivity;
 import com.icure.kses.modoo.utility.ModooDataUtils;
+import com.icure.kses.modoo.vo.ModooItemList;
 import com.squareup.picasso.Picasso;
 
 import java.text.NumberFormat;
@@ -108,110 +108,10 @@ public class ImageListFragment extends Fragment {
             return;
         }
 
-        simpleStringRecyclerViewAdapter = new SimpleStringRecyclerViewAdapter(recyclerView, items);
+        simpleStringRecyclerViewAdapter = new SimpleStringRecyclerViewAdapter(getActivity(), recyclerView, items);
         StaggeredGridLayoutManager layoutManager = new StaggeredGridLayoutManager(1, StaggeredGridLayoutManager.VERTICAL);
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setAdapter(simpleStringRecyclerViewAdapter);
-    }
-
-    public static class SimpleStringRecyclerViewAdapter
-            extends RecyclerView.Adapter<SimpleStringRecyclerViewAdapter.ViewHolder> {
-
-        private static final SimpleDateFormat TIME_FORMAT = new SimpleDateFormat("yyyy/MM/dd HH:mm", Locale.KOREA);
-        private static final NumberFormat PRICE_FORMAT = NumberFormat.getCurrencyInstance(Locale.KOREA);
-
-        public List<ModooItemList> mItems;
-
-        public static class ViewHolder extends RecyclerView.ViewHolder {
-            public final ListItemBinding listItemBinding;
-
-            public ViewHolder(ListItemBinding listItemBinding) {
-                super(listItemBinding.getRoot());
-                this.listItemBinding = listItemBinding;
-                listItemBinding.setTimeformat(TIME_FORMAT);
-                listItemBinding.setPriceformat(PRICE_FORMAT);
-            }
-        }
-
-        public SimpleStringRecyclerViewAdapter(RecyclerView recyclerView, List<ModooItemList> items) {
-            this.mItems = items;
-        }
-
-        @Override
-        public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-            ListItemBinding binding = ListItemBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false);
-            return new ViewHolder(binding);
-        }
-
-        @Override
-        public void onViewRecycled(ViewHolder holder) {
-        }
-
-        @Override
-        public void onBindViewHolder(final ViewHolder holder, @SuppressLint("RecyclerView") final int position) {
-
-           if(mItems == null){
-               return;
-           }
-
-            final Uri uri = Uri.parse(mItems.get(position).thumbUrl);
-
-            Picasso.with(mActivity)
-                    .load(uri)
-                    .into(holder.listItemBinding.image1);
-
-            holder.listItemBinding.cardview.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    ActivityOptionsCompat activityOptions = ActivityOptionsCompat.makeSceneTransitionAnimation(mActivity
-                            , new Pair<View, String>(holder.listItemBinding.image1, ItemDetailsActivity.VIEW_NAME_HEADER_IMAGE)
-                            , new Pair<View, String>(holder.listItemBinding.tvItemName, ItemDetailsActivity.VIEW_NAME_HEADER_NAME)
-                            , new Pair<View, String>(holder.listItemBinding.tvItemPrice, ItemDetailsActivity.VIEW_NAME_HEADER_PRICE));
-                    Intent intent = new Intent(mActivity, ItemDetailsActivity.class);
-                    intent.putExtra(STRING_IMAGE_URI, mItems.get(position).repImageUrl);
-                    intent.putExtra(STRING_ITEM_CODE, mItems.get(position).itemCode);
-                    ActivityCompat.startActivity(mActivity, intent, activityOptions.toBundle());
-                }
-            });
-
-            //Set click action for wishlist
-            holder.listItemBinding.icWishlist.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    String wishMessage = "";
-
-                    ModooDataUtils modooDataUtils = new ModooDataUtils();
-                    if(modooDataUtils.getWishlist().contains(mItems.get(position).itemCode)){
-                        modooDataUtils.removeWishlist(mItems.get(position));
-                        wishMessage = "Item is deleted from wishlist.";
-                    } else {
-                        modooDataUtils.addWishlist(mItems.get(position));
-                        wishMessage = "Item added to wishlist.";
-                    }
-
-                    notifyDataSetChanged();
-                    Toast.makeText(mActivity,wishMessage,Toast.LENGTH_SHORT).show();
-                }
-            });
-
-            ModooDataUtils modooDataUtils = new ModooDataUtils();
-            if(modooDataUtils.getWishlist().contains(mItems.get(position))){
-                holder.listItemBinding.icWishlist.setImageResource(R.drawable.ic_favorite_black_18dp);
-            } else {
-                holder.listItemBinding.icWishlist.setImageResource(R.drawable.ic_favorite_border_black_18dp);
-            }
-
-            holder.listItemBinding.setModooitem(mItems.get(position));
-            holder.listItemBinding.executePendingBindings();
-        }
-
-        @Override
-        public int getItemCount() {
-            if(mItems == null){
-                return 0;
-            }
-            return mItems.size();
-        }
     }
 
     protected void updateItemList(int category){
@@ -255,12 +155,10 @@ public class ImageListFragment extends Fragment {
             public void onChanged(ModooItemWrapper modooItemWrapper) {
                 if(modooItemWrapper != null){
                     if(!modooItemWrapper.resultCode.equalsIgnoreCase(Modoo_Api_Codes.API_RETURNCODE_SUCCESS)){
-                        Toast.makeText(mActivity, "getItemListData Error 1", Toast.LENGTH_SHORT).show();
                         return;
                     }
                     setItems(modooItemWrapper.itemList);
                 } else {
-                    Toast.makeText(mActivity, "getItemListData Error 2", Toast.LENGTH_SHORT).show();
                     return;
                 }
             }
@@ -283,8 +181,6 @@ public class ImageListFragment extends Fragment {
 
     public void setItems(List<ModooItemList> items){
 
-        Log.i("tagg","setItems : " + items.size());
-
         updateFromPreferences();
 
         if(mItems == null){
@@ -292,8 +188,6 @@ public class ImageListFragment extends Fragment {
         }
 
         for(ModooItemList item : items){
-
-            Log.i("tagg","item.itemPrice : " + item.itemPrice);
 
             if(item.itemPrice >= (long)mMinPrice){
                 if(!mItems.contains(item)) {
@@ -331,6 +225,5 @@ public class ImageListFragment extends Fragment {
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getContext());
         mMinPrice = Integer.parseInt(prefs.getString(ModooSettingsActivity.PREF_PRICES, "0"));
 
-        Log.i("tagg","mMinPrice : " + mMinPrice);
     }
 }

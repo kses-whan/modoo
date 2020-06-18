@@ -1,18 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
-<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
-    <SwitchPreference
-        android:key="PREF_AUTO_UPDATE"
-        android:title="@string/auto_update_prompt"
-        android:summary="@string/auto_update_prompt"
-        android:defaultValue="true"/>
-    <ListPreference
-        android:key="PREF_UPDATE_FREQ"
-        android:title="@string/update_freq_prompt"
-        android:summary="@string/update_freq_prompt"
-        android:entries="@array/update_freq_options"
-        android:entryValues="@array/update_freq_values"
-        android:dialogTitle="@string/update_freq_prompt"
-        android:defaultValue="60"/>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    app:iconSpaceReserved="false">
+
+    <PreferenceCategory
+        android:title="@string/settings_title_account"
+        app:iconSpaceReserved="false">
+
+        <SwitchPreference
+            android:key="PREF_AUTO_LOGIN"
+            android:title="@string/auto_login_prompt"
+            android:defaultValue="false"
+            app:allowDividerBelow="true"
+            app:iconSpaceReserved="false"/>
+
+        <!--<Preference
+            android:key="PREF_LOGOUT"
+            android:title="@string/logout_prompt"
+            android:dialogTitle="@string/logout_prompt"
+            android:defaultValue="false"
+            app:allowDividerAbove="true"
+            app:allowDividerBelow="true"
+            app:iconSpaceReserved="false"/>-->
+
+    </PreferenceCategory>
+
     <ListPreference
         android:key="PREF_PRICES"
         android:title="@string/min_price_prompt"
@@ -20,5 +32,7 @@
         android:entries="@array/price_options"
         android:entryValues="@array/price_values"
         android:dialogTitle="@string/min_price_prompt"
-        android:defaultValue="0"/>
+        android:defaultValue="0"
+        app:allowDividerAbove="true"
+        app:iconSpaceReserved="false"/>
 </PreferenceScreen>

@@ -23,13 +23,13 @@ public class MoDooFCMService extends FirebaseMessagingService {
             RemoteMessage.Notification notification = remoteMessage.getNotification();
 
             if(notification != null){
-//                Log.i("tagg","push msg received : " + data);
+                Log.i("tagg","push notification msg received ");
             }
 
             Map<String, String> data = remoteMessage.getData();
 //            String msg = data.get("msg");
-
-            Log.i("tagg","push msg received : " + data);
+            if(data != null)
+                Log.i("tagg","push data received : " + data);
         }catch(Exception e){
             e.printStackTrace();
         }

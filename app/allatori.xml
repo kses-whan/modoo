@@ -35,24 +35,30 @@
         <!-- 외부 라이브러리 예외처리 -->
             <!-- [외부 jar 파일 표시] -->
             <!-- <class template="class [jar파일 패키지]"> <field access="private+"/><method template="private+ *(**)"/> </class> -->
-        <class template="class 'androidx.**"><field access="private+"/><method template="private+ *(**)"/> </class>
-        <class template="class 'com.android.support.**"><field access="private+"/><method template="private+ *(**)"/> </class>
-        <class template="class 'com.android.support.**"><field access="private+"/><method template="private+ *(**)"/> </class>
-        <class template="class 'com.google.**"><field access="private+"/><method template="private+ *(**)"/> </class>
-        <class template="class 'de.mindpipe.android.**"><field access="private+"/><method template="private+ *(**)"/> </class>
-        <class template="class 'com.tjeannin.**"><field access="private+"/><method template="private+ *(**)"/> </class>
-        <class template="class com.dropbox.client2.*"></class>
-        <class template="class 'org.apache.**"><field access="private+"/><method template="private+ *(**)"/> </class>
-        <class template="class 'com.googlecode.**"><field access="private+"/><method template="private+ *(**)"/> </class>
-        <class template="class 'com.opencsv.**"><field access="private+"/><method template="private+ *(**)"/> </class>
-        <class template="class 'com.android.vending.**"><field access="private+"/><method template="private+ *(**)"/> </class>
-        <class template="class 'com.raonsecure.touchen_mguard_4_0.**"><field access="private+"/><method template="private+ *(**)"/> </class>
+        <class template="class androidx.**"><field access="private+"/><method template="private+ *(**)"/></class>
+        <class template="class * instanceof androidx.*"><field access="private+"/><method template="private+ *(**)"/></class>
+        <class template="class com.google.**"><field access="private+"/><method template="private+ *(**)"/> </class>
+        <class template="class de.mindpipe.android.**"><field access="private+"/><method template="private+ *(**)"/> </class>
+        <class template="class com.tjeannin.**"><field access="private+"/><method template="private+ *(**)"/> </class>
+        <class template="class org.apache.**"><field access="private+"/><method template="private+ *(**)"/> </class>
+        <class template="class com.googlecode.**"><field access="private+"/><method template="private+ *(**)"/> </class>
+        <class template="class com.opencsv.**"><field access="private+"/><method template="private+ *(**)"/> </class>
+        <class template="class com.android.vending.**"><field access="private+"/><method template="private+ *(**)"/> </class>
+        <class template="class com.raonsecure.touchen_mguard_4_0.**"><field access="private+"/><method template="private+ *(**)"/> </class>
         <!-- 내부 코드 예외처리 -->
-        <class template="class 'com.icure.kses.modoo.permission.**"><field access="private+"/><method template="private+ *(**)"/> </class>
-        <!-- com.icure.kses.modoo.config. 패키지 전부 예외처리 향후에는 이거 좀 걸러내서 예외처리해줘야할 듯 일단 예외 허용 -->
+        <class template="class com.icure.kses.modoo.permission.**"><field access="private+"/><method template="private+ *(**)"/> </class>
         <class template="class * instanceof com.icure.kses.modoo.utility.PrefManager"><field template="*"/><method template="private+ *(**)"/></class>
-        <class template="class 'com.icure.kses.modoo.service.**"><field access="private+"/><method template="private+ *(**)"/> </class>
-        <class template="class 'com.icure.kses.modoo.sms.**"><field access="private+"/><method template="private+ *(**)"/> </class>
+        <class template="class com.icure.kses.modoo.service.**"><field access="private+"/><method template="private+ *(**)"/> </class>
+        <class template="class com.icure.kses.modoo.model.**"><field access="private+"/><method template="private+ *(**)"/> </class>
+        <class template="class com.icure.kses.modoo.vo.**"><field access="private+"/><method template="private+ *(**)"/> </class>
+
+        <class template="class * instanceof java.io.Serializable"><field access="private+"/><method template="private+ *(**)"/> </class>
+        <!--<class template="class * instanceof androidx.databinding.*"><field access="private+"/><method template="private+ *(**)"/> </class>-->
+        <!--<class template="class com.icure.kses.modoo.activity.ModooSettingsActivity"><field access="private+"/><method template="private+ *(**)"/> </class>-->
+        <!--<class template="class * instanceof androidx.databinding.DataBinderMapper"><field access="private+"/><method template="private+ *(**)"/> </class>
+        <class template="class * instanceof androidx.databinding.ViewDataBinding"><field access="private+"/><method template="private+ *(**)"/> </class>-->
+        <!--<class template="class com.icure.kses.modoo.adapter.**"><field access="private+"/><method template="private+ *(**)"/> </class>-->
+
 
     </keep-names>
 

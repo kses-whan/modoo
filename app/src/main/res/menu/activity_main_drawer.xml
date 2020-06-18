@@ -8,9 +8,9 @@
             android:title="@string/item_1" />
         <item
             android:id="@+id/nav_item2"
-            android:icon="@drawable/ic_smartphone_black_24dp"
+            android:icon="@drawable/ic_book_black_24dp"
             android:title="@string/item_2" />
-        <item
+        <!--<item
             android:id="@+id/nav_item3"
             android:icon="@drawable/ic_wc_black_24dp"
             android:title="@string/item_3" />
@@ -25,7 +25,7 @@
         <item
             android:id="@+id/nav_item6"
             android:icon="@drawable/ic_more_black_24dp"
-            android:title="@string/item_6" />
+            android:title="@string/item_6" />-->
     </group>
 
     <item android:title="@string/my_profile">
@@ -46,10 +46,10 @@
                 android:id="@+id/my_rewards"
                 android:icon="@drawable/ic_card_giftcard_black_24dp"
                 android:title="@string/my_rewards" />
-            <item
+            <!--<item
                 android:id="@+id/my_account"
                 android:icon="@drawable/ic_person_black_24dp"
-                android:title="@string/my_account" />
+                android:title="@string/my_account" />-->
         </menu>
     </item>
 

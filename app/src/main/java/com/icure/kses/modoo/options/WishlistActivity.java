@@ -17,13 +17,11 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.facebook.drawee.view.SimpleDraweeView;
 import com.icure.kses.modoo.R;
 import com.icure.kses.modoo.fragments.ImageListFragment;
-import com.icure.kses.modoo.product.ItemDetailsActivity;
+import com.icure.kses.modoo.activity.ItemDetailsActivity;
 import com.icure.kses.modoo.utility.ModooDataUtils;
 import com.icure.kses.modoo.vo.ModooItemList;
 
 import java.util.ArrayList;
-
-import static com.icure.kses.modoo.fragments.ImageListFragment.STRING_ITEM_CODE;
 
 public class WishlistActivity extends AppCompatActivity {
     private static Context mContext;

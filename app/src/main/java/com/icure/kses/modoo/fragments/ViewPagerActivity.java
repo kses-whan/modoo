@@ -31,8 +31,8 @@ import android.view.ViewGroup.LayoutParams;
 
 import com.icure.kses.modoo.R;
 import com.icure.kses.modoo.photoview.view.PhotoView;
-import com.icure.kses.modoo.product.ItemDetailsActivity;
-import com.icure.kses.modoo.utility.ModooDataUtils;
+import com.icure.kses.modoo.activity.ItemDetailsActivity;
+import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
@@ -96,13 +96,10 @@ public class ViewPagerActivity extends Activity {
         @Override
         public View instantiateItem(ViewGroup container, int position) {
             PhotoView photoView = new PhotoView(container.getContext());
-            photoView.setImageUri(detailImageUrls.get(position));
-
-//            ImageView imageView = new ImageView(container.getContext());
-//            Picasso.with(imageView.getContext())
-//                    .load(sDrawables[position])
-//                    .noFade()
-//                    .into(imageView);
+            Picasso.with(photoView.getContext())
+                    .load(detailImageUrls.get(position))
+                    .noFade()
+                    .into(photoView);
 
             // Now just add PhotoView to ViewPager and return it
             container.addView(photoView, LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT);

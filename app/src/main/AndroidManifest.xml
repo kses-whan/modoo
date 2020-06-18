@@ -48,7 +48,7 @@
 
         <activity android:name=".fragments.ViewPagerActivity"/>
 
-        <activity android:name=".product.ItemDetailsActivity"/>
+        <activity android:name=".activity.ItemDetailsActivity"/>
 
         <activity
             android:name=".options.WishlistActivity"
