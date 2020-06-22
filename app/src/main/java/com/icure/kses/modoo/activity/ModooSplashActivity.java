@@ -30,6 +30,11 @@ public class ModooSplashActivity extends Activity implements Animation.Animation
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash);
 
+        //로그 초기화
+        Log4jHelper.nullInstance();
+
+        //위변조 검사
+
         Intent incomingIntent = getIntent();
         if(incomingIntent != null && incomingIntent.getStringExtra("msg") != null){
             Log.i("tagg", "incomingIntent data : " + incomingIntent.getStringExtra("msg") );
@@ -38,27 +43,22 @@ public class ModooSplashActivity extends Activity implements Animation.Animation
         if (Build.VERSION.SDK_INT < 16) {
             getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
                     WindowManager.LayoutParams.FLAG_FULLSCREEN);
-
         } else {
             View decorView = getWindow().getDecorView();
-            // Hide the status bar.
             int uiOptions = View.SYSTEM_UI_FLAG_FULLSCREEN;
             decorView.setSystemUiVisibility(uiOptions);
-            // Remember that you should never show the action bar if the
-            // status bar is hidden, so hide that too if necessary.
         }
-        // load the animation
+
         animFadeIn = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.animation_fade_in);
-        // set animation listener
         animFadeIn.setAnimationListener(this);
-        // animation for image
+
         linearLayout = (LinearLayout) findViewById(R.id.layout_linear);
-        // start the animation
         linearLayout.setVisibility(View.VISIBLE);
         linearLayout.startAnimation(animFadeIn);
 
-        Log4jHelper.nullInstance();
+        // DB 초기화
         new Modoo_DatabaseHelper(this);
+        // Push 초기화
         initFCM();
     }
 
@@ -74,7 +74,6 @@ public class ModooSplashActivity extends Activity implements Animation.Animation
     }
 
     public void onAnimationEnd(Animation animation) {
-            // Start Main Screen
         if(ModooPermissionHelper.checkPermissions(this)){
             Intent i = new Intent(ModooSplashActivity.this, ModooWelcomeActivity.class);
             startActivity(i);
@@ -83,13 +82,11 @@ public class ModooSplashActivity extends Activity implements Animation.Animation
     }
 
     @Override
-    public void onAnimationRepeat(Animation animation) {
-        //under Implementation
-    }
+    public void onAnimationRepeat(Animation animation) {}
 
     private void initFCM(){
         FirebaseMessaging.getInstance().setAutoInitEnabled(true);
-        new FCMManager(this);
+        new FCMManager(getApplicationContext());
     }
 
     @Override

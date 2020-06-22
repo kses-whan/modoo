@@ -3,19 +3,24 @@ package com.icure.kses.modoo.activity;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
 import android.transition.Transition;
 import android.util.Log;
 import android.view.View;
+import android.view.WindowInsets;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.view.OnApplyWindowInsetsListener;
 import androidx.core.view.ViewCompat;
+import androidx.core.view.WindowInsetsCompat;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 
+import com.bumptech.glide.Glide;
 import com.icure.kses.modoo.R;
 import com.icure.kses.modoo.constant.Modoo_Api_Codes;
 import com.icure.kses.modoo.fragments.ImageListFragment;
@@ -28,6 +33,8 @@ import com.icure.kses.modoo.utility.ModooDataUtils;
 import com.icure.kses.modoo.vo.ModooItemDetail;
 import com.icure.kses.modoo.vo.ModooItemList;
 import com.squareup.picasso.Picasso;
+
+import org.apache.commons.io.FilenameUtils;
 
 import java.util.ArrayList;
 
@@ -50,6 +57,7 @@ public class ItemDetailsActivity extends AppCompatActivity {
 
     public static final String DETAIL_IMAGE_LIST = "DETAIL_IMAGE_LIST";
 
+    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -90,6 +98,9 @@ public class ItemDetailsActivity extends AppCompatActivity {
                 }
             }
         });
+
+        loadThumbImage();
+        addTransitionListener();
     }
 
     private void setDetail(final ModooItemDetail modooItemDetail){
@@ -130,16 +141,6 @@ public class ItemDetailsActivity extends AppCompatActivity {
                 startActivity(new Intent(ItemDetailsActivity.this, CartListActivity.class));
             }
         });
-
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP && addTransitionListener()) {
-            // If we're running on Lollipop and we have added a listener to the shared element
-            // transition, load the thumbnail. The listener will load the full-size image when
-            // the transition is complete.
-            loadThumbnail();
-        } else {
-            // If all other cases we should just load the full-size image now
-            loadFullSizeImage();
-        }
     }
 
     private ModooItemList createModooItemList(ModooItemDetail modooItemDetail){
@@ -154,30 +155,47 @@ public class ItemDetailsActivity extends AppCompatActivity {
     }
 
     /**
-     * Load the item's thumbnail image into our {@link ImageView}.
-     */
-    private void loadThumbnail() {
-        Picasso.with(mImageView.getContext())
-                .load(stringImageUri)
-                .noFade()
-                .noPlaceholder()
-                .into(mImageView);
-
-//        mImageView.setImageURI(Uri.parse(stringImageUri));
-    }
-
-    /**
      * Load the item's full-size image into our {@link ImageView}.
      */
     private void loadFullSizeImage() {
-        Picasso.with(mImageView.getContext())
-                .load(stringImageUri)
-                .noFade()
-                .noPlaceholder()
-                .into(mImageView);
+//        Picasso.with(mImageView.getContext())
+//                .load(stringImageUri)
+//                .noFade()
+//                .noPlaceholder()
+//                .into(mImageView);
+        String extension = FilenameUtils.getExtension(stringImageUri);
+        if(extension.equalsIgnoreCase("gif")){
+            Glide.with(mImageView.getContext())
+                    .load(stringImageUri)
+                    .into(mImageView);
+        } else {
+            Picasso.with(mImageView.getContext())
+                    .load(stringImageUri)
+                    .noPlaceholder()
+                    .noFade()
+                    .into(mImageView);
+        }
+    }
 
+    private void loadThumbImage() {
+//        Picasso.with(mImageView.getContext())
+//                .load(stringImageUri)
+//                .noFade()
+//                .noPlaceholder()
+//                .into(mImageView);
 
-//        mImageView.setImageURI(Uri.parse(stringImageUri));
+        String extension = FilenameUtils.getExtension(stringImageUri);
+        if(extension.equalsIgnoreCase("gif")){
+            Glide.with(mImageView.getContext())
+                    .load(stringImageUri)
+                    .into(mImageView);
+        } else {
+            Picasso.with(mImageView.getContext())
+                    .load(stringImageUri)
+                    .noPlaceholder()
+                    .noFade()
+                    .into(mImageView);
+        }
     }
 
     @RequiresApi(21)
@@ -189,10 +207,13 @@ public class ItemDetailsActivity extends AppCompatActivity {
             transition.addListener(new Transition.TransitionListener() {
                 @Override
                 public void onTransitionEnd(Transition transition) {
-                    // As the transition has ended, we can now load the full-size image
-                    loadFullSizeImage();
+                    new Handler().postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            loadFullSizeImage();
+                        }
+                    }, 500);
 
-                    // Make sure we remove ourselves as a listener
                     transition.removeListener(this);
                 }
 

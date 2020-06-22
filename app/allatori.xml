@@ -53,6 +53,8 @@
         <class template="class com.icure.kses.modoo.vo.**"><field access="private+"/><method template="private+ *(**)"/> </class>
 
         <class template="class * instanceof java.io.Serializable"><field access="private+"/><method template="private+ *(**)"/> </class>
+        <class template="class * instanceof com.bumptech.glide.*"><field access="private+"/><method template="private+ *(**)"/> </class>
+        <class template="class com.bumptech.glide.**"><field access="private+"/><method template="private+ *(**)"/> </class>
         <!--<class template="class * instanceof androidx.databinding.*"><field access="private+"/><method template="private+ *(**)"/> </class>-->
         <!--<class template="class com.icure.kses.modoo.activity.ModooSettingsActivity"><field access="private+"/><method template="private+ *(**)"/> </class>-->
         <!--<class template="class * instanceof androidx.databinding.DataBinderMapper"><field access="private+"/><method template="private+ *(**)"/> </class>

@@ -14,6 +14,7 @@ import androidx.core.app.ActivityOptionsCompat;
 import androidx.core.util.Pair;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.icure.kses.modoo.R;
 import com.icure.kses.modoo.activity.ItemDetailsActivity;
 import com.icure.kses.modoo.databinding.ListItemBinding;
@@ -21,6 +22,8 @@ import com.icure.kses.modoo.fragments.ImageListFragment;
 import com.icure.kses.modoo.utility.ModooDataUtils;
 import com.icure.kses.modoo.vo.ModooItemList;
 import com.squareup.picasso.Picasso;
+
+import org.apache.commons.io.FilenameUtils;
 
 import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
@@ -69,7 +72,10 @@ public class SimpleStringRecyclerViewAdapter
             return;
         }
 
-        final Uri uri = Uri.parse(mItems.get(position).thumbUrl);
+        String uriPath = mItems.get(position).thumbUrl;
+        String extension = FilenameUtils.getExtension(uriPath);
+        final Uri uri = Uri.parse(uriPath);
+
         Picasso.with(activity)
                 .load(uri)
                 .into(holder.listItemBinding.image1);

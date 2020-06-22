@@ -346,6 +346,7 @@ public class ModooDataUtils {
                         "]" +
                     "}";
                 break;
+//            https://www.dogdrip.net/files/attach/dvs/16/02/23/78/279/989/091/1b9249771cccaa8fcd71cf24aeddfc80.gif
             case 1:
                 testJsonStr = "{" +
                         "\"resultCode\":\"s001\"," +
@@ -354,15 +355,15 @@ public class ModooDataUtils {
                         "[" +
                         "{" +
                         "\"itemCode\":\"200001\"," +
-                        "\"thumbUrl\":\"https://static.pexels.com/photos/1778/numbers-time-watch-white-medium.jpg\"," +
-                        "\"repImageUrl\":\"https://static.pexels.com/photos/1778/numbers-time-watch-white-medium.jpg\"," +
+                        "\"thumbUrl\":\"https://1.gall-gif.com/hygall/files/attach/images/82/412/175/214/33fe60ed3705b2b09b4fef4348757edc.gif\"," +
+                        "\"repImageUrl\":\"https://1.gall-gif.com/hygall/files/attach/images/82/412/175/214/33fe60ed3705b2b09b4fef4348757edc.gif\"," +
                         "\"itemName\":\"2 아이템 1\"," +
                         "\"itemPrice\":\"30000\"" +
                         "}," +
                         "{" +
                         "\"itemCode\":\"200002\"," +
-                        "\"thumbUrl\":\"https://static.pexels.com/photos/189293/pexels-photo-189293-medium.jpeg\"," +
-                        "\"repImageUrl\":\"https://static.pexels.com/photos/189293/pexels-photo-189293-medium.jpeg\"," +
+                        "\"thumbUrl\":\"https://file1.bobaedream.co.kr/multi_image/strange/2015/03/24/14/Bhx5510efea3ce1a.gif\"," +
+                        "\"repImageUrl\":\"https://file1.bobaedream.co.kr/multi_image/strange/2015/03/24/14/Bhx5510efea3ce1a.gif\"," +
                         "\"itemName\":\"2 아이템 2\"," +
                         "\"itemPrice\":\"123000\"" +
                         "}," +
