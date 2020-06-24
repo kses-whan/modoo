@@ -4,7 +4,7 @@ import android.graphics.Bitmap;
 
 import java.io.File;
 
-public interface Modoo_HttpParams {
+public interface ModooHttpParams {
 
 	void pushDataKey(String key, String value);
 	void pushFileKey(String key, File value);

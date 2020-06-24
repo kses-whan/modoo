@@ -4,7 +4,7 @@ import java.util.Random;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-public class Modoo_Constants {
+public class ModooConstants {
     //AsyncTask 최대 스레드 개수
     public static final ExecutorService EXECUTOR = Executors.newFixedThreadPool(10);
 
@@ -21,4 +21,7 @@ public class Modoo_Constants {
     private static final String TWO_HYPHEN = "--";
     private final static String BOURDARY = String.format("%x", new Random().hashCode());
 
+    //Google Analytics event id
+    public static final String EVENT_ID_ITEM_DETAILS_ACTIVITY_1 = "ITEM_DETAILS_ACTIVITY_001";
+    public static final String EVENT_NAME_CART_BTN_ITEM_DETAILS_ACTIVITY = "Add to cart button clicked";
 }

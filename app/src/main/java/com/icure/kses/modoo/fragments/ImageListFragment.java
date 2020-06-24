@@ -16,11 +16,8 @@
 
 package com.icure.kses.modoo.fragments;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
-import android.content.Intent;
 import android.content.SharedPreferences;
-import android.net.Uri;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -29,9 +26,6 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.core.app.ActivityCompat;
-import androidx.core.app.ActivityOptionsCompat;
-import androidx.core.util.Pair;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
@@ -44,20 +38,13 @@ import com.icure.kses.modoo.R;
 import com.icure.kses.modoo.activity.ModooMainActivity;
 import com.icure.kses.modoo.activity.ModooSettingsActivity;
 import com.icure.kses.modoo.adapter.SimpleStringRecyclerViewAdapter;
-import com.icure.kses.modoo.constant.Modoo_Api_Codes;
-import com.icure.kses.modoo.databinding.ListItemBinding;
+import com.icure.kses.modoo.constant.ModooApiCodes;
 import com.icure.kses.modoo.model.ModooItemWrapper;
 import com.icure.kses.modoo.model.ModooViewModel;
-import com.icure.kses.modoo.activity.ItemDetailsActivity;
-import com.icure.kses.modoo.utility.ModooDataUtils;
 import com.icure.kses.modoo.vo.ModooItemList;
-import com.squareup.picasso.Picasso;
 
-import java.text.NumberFormat;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale;
 
 
 public class ImageListFragment extends Fragment {
@@ -119,7 +106,7 @@ public class ImageListFragment extends Fragment {
             @Override
             public void onChanged(ModooItemWrapper modooItemWrapper) {
                 if(modooItemWrapper != null){
-                    if(!modooItemWrapper.resultCode.equalsIgnoreCase(Modoo_Api_Codes.API_RETURNCODE_SUCCESS)){
+                    if(!modooItemWrapper.resultCode.equalsIgnoreCase(ModooApiCodes.API_RETURNCODE_SUCCESS)){
                         Toast.makeText(mActivity, "getItemListData Error 1", Toast.LENGTH_SHORT).show();
                         return;
                     }
@@ -154,7 +141,7 @@ public class ImageListFragment extends Fragment {
             @Override
             public void onChanged(ModooItemWrapper modooItemWrapper) {
                 if(modooItemWrapper != null){
-                    if(!modooItemWrapper.resultCode.equalsIgnoreCase(Modoo_Api_Codes.API_RETURNCODE_SUCCESS)){
+                    if(!modooItemWrapper.resultCode.equalsIgnoreCase(ModooApiCodes.API_RETURNCODE_SUCCESS)){
                         return;
                     }
                     setItems(modooItemWrapper.itemList);

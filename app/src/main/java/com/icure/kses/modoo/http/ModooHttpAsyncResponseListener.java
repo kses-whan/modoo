@@ -1,5 +1,5 @@
 package com.icure.kses.modoo.http;
 
-public interface Modoo_HttpAsyncResponseListener {
+public interface ModooHttpAsyncResponseListener {
     void onPostExcute(String[] resultArr);
 }

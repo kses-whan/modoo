@@ -38,7 +38,7 @@ import javax.net.ssl.SSLSession;
 import javax.net.ssl.TrustManager;
 import javax.net.ssl.X509TrustManager;
 
-public class Modoo_HttpClient implements Modoo_HttpParams {
+public class ModooHttpClient implements ModooHttpParams {
 
     private static Log4jHelper logger = Log4jHelper.getInstance();
 
@@ -77,7 +77,7 @@ public class Modoo_HttpClient implements Modoo_HttpParams {
     private PrintWriter writer;
     private FileInputStream fis = null;
 
-    public Modoo_HttpClient() {
+    public ModooHttpClient() {
         //
     }
 

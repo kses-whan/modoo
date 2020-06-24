@@ -10,7 +10,7 @@ import androidx.annotation.Nullable;
 
 import com.icure.kses.modoo.log.Log4jHelper;
 
-public class Modoo_DatabaseHelper extends SQLiteOpenHelper {
+public class ModooDatabaseHelper extends SQLiteOpenHelper {
 
     static Log4jHelper logger = Log4jHelper.getInstance();
 
@@ -27,7 +27,7 @@ public class Modoo_DatabaseHelper extends SQLiteOpenHelper {
 
     static boolean bIsFirstRun = true;
 
-    public Modoo_DatabaseHelper(@Nullable Context context) {
+    public ModooDatabaseHelper(@Nullable Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
 
         this.context = context;

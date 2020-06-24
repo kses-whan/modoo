@@ -2,55 +2,37 @@ package com.icure.kses.modoo.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
+import android.view.View;
 
-import com.google.android.gms.auth.api.signin.GoogleSignIn;
-import com.google.android.gms.auth.api.signin.GoogleSignInClient;
-import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
-import com.google.android.material.appbar.CollapsingToolbarLayout;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.android.material.tabs.TabLayout;
-
-import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
 import androidx.viewpager.widget.ViewPager;
-import com.google.android.material.navigation.NavigationView;
-import androidx.core.view.GravityCompat;
-import androidx.drawerlayout.widget.DrawerLayout;
-import androidx.appcompat.app.ActionBarDrawerToggle;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
 
-import android.util.Log;
-import android.view.Menu;
-import android.view.MenuItem;
-import android.view.View;
-import android.widget.ImageView;
-
-import com.google.firebase.auth.FirebaseAuth;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.android.material.tabs.TabLayout;
 import com.icure.kses.modoo.R;
 import com.icure.kses.modoo.fragments.ImageListFragment;
 import com.icure.kses.modoo.notification.NotificationCountSetClass;
 import com.icure.kses.modoo.options.CartListActivity;
 import com.icure.kses.modoo.options.SearchResultActivity;
 import com.icure.kses.modoo.options.WishlistActivity;
-import com.kakao.usermgmt.UserManagement;
-import com.kakao.usermgmt.callback.LogoutResponseCallback;
-import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class ModooMainActivity extends AppCompatActivity
-    implements NavigationView.OnNavigationItemSelectedListener{
+    implements BottomNavigationView.OnNavigationItemSelectedListener{
 
     public static int notificationCountCart = 0;
     public static int notificationPushMsg = 0;
     static ViewPager viewPager;
-    static TabLayout tabLayout;
+    static BottomNavigationView navigationView;
+//    static TabLayout tabLayout;
 //    static CollapsingToolbarLayout tabLayout;
 
     private static final int MENU_PREFERENCES = Menu.FIRST + 1;
@@ -60,24 +42,25 @@ public class ModooMainActivity extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
 
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
-            this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
-        drawer.addDrawerListener(toggle);
-        toggle.syncState();
+//        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+//        setSupportActionBar(toolbar);
 
-        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
-        navigationView.setNavigationItemSelectedListener(this);
+//        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+//        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
+//            this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+//        drawer.addDrawerListener(toggle);
+//        toggle.syncState();
+
+        navigationView = findViewById(R.id.nav_view);
+        navigationView.setOnNavigationItemSelectedListener(this);
 
          viewPager = (ViewPager) findViewById(R.id.viewpager);
-         tabLayout = findViewById(R.id.tabs);
+//         tabLayout = findViewById(R.id.tabs);
 
         if (viewPager != null) {
             setupViewPager(viewPager);
-            tabLayout.setupWithViewPager(viewPager);
+//            tabLayout.setupWithViewPager(viewPager);
         }
 
 //        ImageView iv_toolbar = findViewById(R.id.iv_toolbar);
@@ -88,10 +71,10 @@ public class ModooMainActivity extends AppCompatActivity
 //                .noPlaceholder()
 //                .into(iv_toolbar);
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
+//        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+//        fab.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
 //                UserManagement.getInstance()
 //                        .requestLogout(new LogoutResponseCallback() {
 //                            @Override
@@ -111,8 +94,8 @@ public class ModooMainActivity extends AppCompatActivity
 //                        Log.i("tagg", "구글 로그아웃 완료");
 //                    }
 //                });
-            }
-        });
+//            }
+//        });
     }
 
     @Override
@@ -123,12 +106,13 @@ public class ModooMainActivity extends AppCompatActivity
 
     @Override
     public void onBackPressed() {
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        if (drawer.isDrawerOpen(GravityCompat.START)) {
-            drawer.closeDrawer(GravityCompat.START);
-        } else {
-            super.onBackPressed();
-        }
+//        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+//        if (drawer.isDrawerOpen(GravityCompat.START)) {
+//            drawer.closeDrawer(GravityCompat.START);
+//        } else {
+//            super.onBackPressed();
+//        }
+        super.onBackPressed();
     }
 
     @Override
@@ -217,6 +201,29 @@ public class ModooMainActivity extends AppCompatActivity
 //        fragment.setArguments(bundle);
 //        adapter.addFragment(fragment, getString(R.string.item_6));
         viewPager.setAdapter(adapter);
+        viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+                switch(position){
+                    case 0 :
+                        navigationView.setSelectedItemId(R.id.nav_item1);
+                        break;
+                    case 1 :
+                        navigationView.setSelectedItemId(R.id.nav_item2);
+                        break;
+                }
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+
+            }
+        });
     }
 
     int category = 1;
@@ -246,8 +253,8 @@ public class ModooMainActivity extends AppCompatActivity
             startActivity(new Intent(ModooMainActivity.this, CartListActivity.class));
         }
 
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        drawer.closeDrawer(GravityCompat.START);
+//        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+//        drawer.closeDrawer(GravityCompat.START);
         return true;
     }
 

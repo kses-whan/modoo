@@ -9,12 +9,11 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
 import com.google.gson.Gson;
-import com.icure.kses.modoo.constant.Modoo_Api_Codes;
-import com.icure.kses.modoo.constant.Modoo_Constants;
-import com.icure.kses.modoo.http.Modoo_HttpAsyncResponseListener;
-import com.icure.kses.modoo.http.Modoo_HttpPriorityAsync;
+import com.icure.kses.modoo.constant.ModooApiCodes;
+import com.icure.kses.modoo.constant.ModooConstants;
+import com.icure.kses.modoo.http.ModooHttpAsyncResponseListener;
+import com.icure.kses.modoo.http.ModooHttpPriorityAsync;
 import com.icure.kses.modoo.utility.ModooDataUtils;
-import com.icure.kses.modoo.vo.ModooItemDetail;
 
 public class ModooViewModel extends AndroidViewModel {
 
@@ -49,12 +48,12 @@ public class ModooViewModel extends AndroidViewModel {
     public void loadItemDetailData(final String itemCode){
         Log.i("tagg","loadItemDetailData : " + itemCode);
 
-        Modoo_HttpPriorityAsync httpPriorityAsync = new Modoo_HttpPriorityAsync(
+        ModooHttpPriorityAsync httpPriorityAsync = new ModooHttpPriorityAsync(
                 getApplication().getApplicationContext()
                 , null  //local test
-                , Modoo_Constants.HTTP_POST
+                , ModooConstants.HTTP_POST
                 , false
-                , new Modoo_HttpAsyncResponseListener() {
+                , new ModooHttpAsyncResponseListener() {
             @Override
             public void onPostExcute(String[] resultArr) {
                 try {
@@ -66,33 +65,33 @@ public class ModooViewModel extends AndroidViewModel {
 
                     ModooItemWrapper item = new Gson().fromJson(resultStr, ModooItemWrapper.class);
                     if(item == null){
-                        setError(Modoo_Api_Codes.API_RETURNCODE_UNKNOWN_ERROR);
+                        setError(ModooApiCodes.API_RETURNCODE_UNKNOWN_ERROR);
                         return;
                     }
 
-                    if (item.resultCode.equalsIgnoreCase(Modoo_Api_Codes.API_RETURNCODE_SUCCESS)) {
+                    if (item.resultCode.equalsIgnoreCase(ModooApiCodes.API_RETURNCODE_SUCCESS)) {
                         Log.i("tagg","API_RETURNCODE_SUCCESS : " + item.itemDetail.itemCode);
                         itemDetailData.setValue(item);
                     }
                 }catch(Exception e){
                     e.printStackTrace();
-                    setError(Modoo_Api_Codes.API_RETURNCODE_UNKNOWN_ERROR);
+                    setError(ModooApiCodes.API_RETURNCODE_UNKNOWN_ERROR);
                 }
             }
         });
 
-        httpPriorityAsync.executeOnExecutor(Modoo_Constants.EXECUTOR, itemCode);
+        httpPriorityAsync.executeOnExecutor(ModooConstants.EXECUTOR, itemCode);
     }
 
 
     public void loadItemListData(final int category){
 
-        Modoo_HttpPriorityAsync httpPriorityAsync = new Modoo_HttpPriorityAsync(
+        ModooHttpPriorityAsync httpPriorityAsync = new ModooHttpPriorityAsync(
                 getApplication().getApplicationContext()
                 , null  //local test
-                , Modoo_Constants.HTTP_POST
+                , ModooConstants.HTTP_POST
                 , false
-                , new Modoo_HttpAsyncResponseListener() {
+                , new ModooHttpAsyncResponseListener() {
             @Override
             public void onPostExcute(String[] resultArr) {
                 try {
@@ -106,22 +105,22 @@ public class ModooViewModel extends AndroidViewModel {
                     ModooItemWrapper item = new Gson().fromJson(resultStr, ModooItemWrapper.class);
                     if(item == null){
                         Log.i("tagg","ERROR 111");
-                        setError(Modoo_Api_Codes.API_RETURNCODE_UNKNOWN_ERROR);
+                        setError(ModooApiCodes.API_RETURNCODE_UNKNOWN_ERROR);
                         return;
                     }
 
-                    if (item.resultCode.equalsIgnoreCase(Modoo_Api_Codes.API_RETURNCODE_SUCCESS)) {
+                    if (item.resultCode.equalsIgnoreCase(ModooApiCodes.API_RETURNCODE_SUCCESS)) {
                         itemListData.setValue(item);
                     }
                 }catch(Exception e){
                     e.printStackTrace();
                     Log.i("tagg","ERROR 222");
-                    setError(Modoo_Api_Codes.API_RETURNCODE_UNKNOWN_ERROR);
+                    setError(ModooApiCodes.API_RETURNCODE_UNKNOWN_ERROR);
                 }
             }
         });
 
-        httpPriorityAsync.executeOnExecutor(Modoo_Constants.EXECUTOR, "" + category);
+        httpPriorityAsync.executeOnExecutor(ModooConstants.EXECUTOR, "" + category);
     }
 
     private void setError(String errorCode){

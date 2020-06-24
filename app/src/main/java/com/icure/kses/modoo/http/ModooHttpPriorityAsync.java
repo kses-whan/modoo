@@ -9,7 +9,7 @@ import android.text.TextUtils;
 import android.widget.Toast;
 
 
-import com.icure.kses.modoo.constant.Modoo_Api_Codes;
+import com.icure.kses.modoo.constant.ModooApiCodes;
 import com.icure.kses.modoo.log.Log4jHelper;
 
 import org.json.JSONObject;
@@ -17,23 +17,23 @@ import org.json.JSONObject;
 import java.io.File;
 
 
-public class Modoo_HttpPriorityAsync extends PriorityAsyncTask<String, Integer, String[]> implements Modoo_HttpParams {
+public class ModooHttpPriorityAsync extends PriorityAsyncTask<String, Integer, String[]> implements ModooHttpParams {
 
-    private Modoo_HttpClient ksesHttpClient;
+    private ModooHttpClient ksesHttpClient;
     private Context context;
 
     private ProgressDialog progress = null;
     private boolean useProgress = false;
 
-    private Modoo_HttpAsyncResponseListener ksesHttpAsyncResponseListener;
+    private ModooHttpAsyncResponseListener ksesHttpAsyncResponseListener;
 
     protected static Log4jHelper logger = Log4jHelper.getInstance();
 
-    public Modoo_HttpPriorityAsync(Context context, String url, int encodeType, boolean useProgress, Modoo_HttpAsyncResponseListener listener) {
+    public ModooHttpPriorityAsync(Context context, String url, int encodeType, boolean useProgress, ModooHttpAsyncResponseListener listener) {
         super();
 
         if(!TextUtils.isEmpty(url)) {
-            ksesHttpClient = new Modoo_HttpClient();
+            ksesHttpClient = new ModooHttpClient();
             ksesHttpClient.init(context, url, encodeType);
         } else {
             ksesHttpClient = null;
@@ -75,7 +75,7 @@ public class Modoo_HttpPriorityAsync extends PriorityAsyncTask<String, Integer, 
 
         if(ksesHttpClient != null){
             try {
-                if (ksesHttpClient.encodeType == Modoo_HttpClient.GET)
+                if (ksesHttpClient.encodeType == ModooHttpClient.GET)
                     resultArr[0] = ksesHttpClient.connectToServerGet();
                 else resultArr[0] = ksesHttpClient.connectToServer();
             } catch (Exception e) {
@@ -107,7 +107,7 @@ public class Modoo_HttpPriorityAsync extends PriorityAsyncTask<String, Integer, 
         if (resultArr == null || resultArr.length <= 0 || resultArr[0] == null) {
             try {
                 JSONObject jo = new JSONObject();
-                jo.put("returnvalue", "" + Modoo_Api_Codes.API_RETURNCODE_UNKNOWN_ERROR);
+                jo.put("returnvalue", "" + ModooApiCodes.API_RETURNCODE_UNKNOWN_ERROR);
                 jo.put("message", "http error");
                 resultArr = new String[]{jo.toString()};
             } catch (Exception e) {
