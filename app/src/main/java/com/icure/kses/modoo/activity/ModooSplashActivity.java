@@ -15,7 +15,7 @@ import androidx.annotation.NonNull;
 
 import com.google.firebase.messaging.FirebaseMessaging;
 import com.icure.kses.modoo.R;
-import com.icure.kses.modoo.database.Modoo_DatabaseHelper;
+import com.icure.kses.modoo.database.ModooDatabaseHelper;
 import com.icure.kses.modoo.log.Log4jHelper;
 import com.icure.kses.modoo.permission.ModooPermissionHelper;
 import com.icure.kses.modoo.push.FCMManager;
@@ -57,7 +57,7 @@ public class ModooSplashActivity extends Activity implements Animation.Animation
         linearLayout.startAnimation(animFadeIn);
 
         // DB 초기화
-        new Modoo_DatabaseHelper(this);
+        new ModooDatabaseHelper(this);
         // Push 초기화
         initFCM();
     }

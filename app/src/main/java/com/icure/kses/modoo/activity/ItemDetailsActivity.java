@@ -147,10 +147,9 @@ public class ItemDetailsActivity extends AppCompatActivity {
 
                 //analytics event
                 Bundle bundle = new Bundle();
-                bundle.putString(FirebaseAnalytics.Param.ITEM_ID, ModooConstants.EVENT_ID_ITEM_DETAILS_ACTIVITY_1);
-                bundle.putString(FirebaseAnalytics.Param.ITEM_NAME, ModooConstants.EVENT_NAME_CART_BTN_ITEM_DETAILS_ACTIVITY);
-                bundle.putString(FirebaseAnalytics.Param.CONTENT_TYPE, "image");
-                mFirebaseAnalytics.logEvent(FirebaseAnalytics.Event.SELECT_CONTENT, bundle);
+                bundle.putString("btn_name", ModooConstants.EVENT_ID_ITEM_DETAILS_ACTIVITY_1);
+                bundle.putString("btn_desc", ModooConstants.EVENT_NAME_CART_BTN_ITEM_DETAILS_ACTIVITY);
+                mFirebaseAnalytics.logEvent("btn_click", bundle);
             }
         });
 
