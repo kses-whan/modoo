@@ -14,12 +14,12 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.facebook.drawee.view.SimpleDraweeView;
 import com.icure.kses.modoo.R;
-import com.icure.kses.modoo.fragments.ImageListFragment;
 import com.icure.kses.modoo.activity.ItemDetailsActivity;
+import com.icure.kses.modoo.fragments.ImageListFragment;
 import com.icure.kses.modoo.utility.ModooDataUtils;
 import com.icure.kses.modoo.vo.ModooItemList;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
@@ -49,13 +49,13 @@ public class WishlistActivity extends AppCompatActivity {
 
         public static class ViewHolder extends RecyclerView.ViewHolder {
             public final View mView;
-            public final SimpleDraweeView mImageView;
+            public final ImageView mImageView;
             public final LinearLayout mLayoutItem;
             public final ImageView mImageViewWishlist;
             public ViewHolder(View view) {
                 super(view);
                 mView = view;
-                mImageView = (SimpleDraweeView) view.findViewById(R.id.image_wishlist);
+                mImageView = (ImageView) view.findViewById(R.id.image_wishlist);
                 mLayoutItem = (LinearLayout) view.findViewById(R.id.layout_item_desc);
                 mImageViewWishlist = (ImageView) view.findViewById(R.id.ic_wishlist);
             }
@@ -74,19 +74,25 @@ public class WishlistActivity extends AppCompatActivity {
 
         @Override
         public void onViewRecycled(ViewHolder holder) {
-            if (holder.mImageView.getController() != null) {
-                holder.mImageView.getController().onDetach();
-            }
-            if (holder.mImageView.getTopLevelDrawable() != null) {
-                holder.mImageView.getTopLevelDrawable().setCallback(null);
-//                ((BitmapDrawable) holder.mImageView.getTopLevelDrawable()).getBitmap().recycle();
-            }
+//            if (holder.mImageView.getController() != null) {
+//                holder.mImageView.getController().onDetach();
+//            }
+//            if (holder.mImageView.getTopLevelDrawable() != null) {
+//                holder.mImageView.getTopLevelDrawable().setCallback(null);
+////                ((BitmapDrawable) holder.mImageView.getTopLevelDrawable()).getBitmap().recycle();
+//            }
         }
 
         @Override
         public void onBindViewHolder(final WishlistActivity.SimpleStringRecyclerViewAdapter.ViewHolder holder, final int position) {
             final Uri uri = Uri.parse(mWishlist.get(position).thumbUrl);
-            holder.mImageView.setImageURI(uri);
+
+            Picasso.with(mContext)
+                    .load(uri)
+                    .noFade()
+                    .noPlaceholder()
+                    .into(holder.mImageView);
+
             holder.mLayoutItem.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {

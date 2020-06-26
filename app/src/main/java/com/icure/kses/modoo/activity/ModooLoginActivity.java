@@ -74,18 +74,13 @@ public class ModooLoginActivity extends AppCompatActivity {
         UserManagement.getInstance()
                 .me(new MeV2ResponseCallback() {
                     @Override
-                    public void onSessionClosed(ErrorResult errorResult) {
-                        Log.e("tagg", "세션이 닫혀 있음: " + errorResult);
-                    }
+                    public void onSessionClosed(ErrorResult errorResult) {}
 
                     @Override
-                    public void onFailure(ErrorResult errorResult) {
-                        Log.e("tagg", "사용자 정보 요청 실패: " + errorResult);
-                    }
+                    public void onFailure(ErrorResult errorResult) {}
 
                     @Override
                     public void onSuccess(MeV2Response result) {
-                        Log.i("tagg", "사용자 아이디: " + result.getId());
                         UserAccount kakaoAccount = result.getKakaoAccount();
                         if (kakaoAccount != null) {
 
@@ -93,8 +88,6 @@ public class ModooLoginActivity extends AppCompatActivity {
                             String email = kakaoAccount.getEmail();
 
                             if (email != null) {
-                                Log.i("tagg", "email: " + email);
-
                             } else if (kakaoAccount.emailNeedsAgreement() == OptionalBoolean.TRUE) {
                                 // 동의 요청 후 이메일 획득 가능
                                 // 단, 선택 동의로 설정되어 있다면 서비스 이용 시나리오 상에서 반드시 필요한 경우에만 요청해야 합니다.
