@@ -13,9 +13,20 @@ import com.icure.kses.modoo.constant.ModooApiCodes;
 import com.icure.kses.modoo.constant.ModooConstants;
 import com.icure.kses.modoo.http.ModooHttpAsyncResponseListener;
 import com.icure.kses.modoo.http.ModooHttpPriorityAsync;
+import com.icure.kses.modoo.log.Log4jHelper;
+import com.icure.kses.modoo.retrofit.RetrofitClient;
 import com.icure.kses.modoo.utility.ModooDataUtils;
 
+import java.util.HashMap;
+
+import okhttp3.ResponseBody;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
 public class ModooViewModel extends AndroidViewModel {
+
+    private static Log4jHelper logger = Log4jHelper.getInstance();
 
     private MutableLiveData<ModooItemWrapper> itemListData, itemDetailData;
 
@@ -32,12 +43,6 @@ public class ModooViewModel extends AndroidViewModel {
     }
 
     public LiveData<ModooItemWrapper> getItemDetailData(String itemCode){
-//        if(itemDetailData == null){
-//            itemDetailData = new MutableLiveData<>();
-//            loadItemDetailData(itemCode);
-//        }
-//        return itemDetailData;
-
         if(itemDetailData == null) {
             itemDetailData = new MutableLiveData<>();
         }
@@ -45,7 +50,7 @@ public class ModooViewModel extends AndroidViewModel {
         return itemDetailData;
     }
 
-    public void loadItemDetailData(final String itemCode){
+    public void loadItemDetailData(@NonNull final String itemCode){
         Log.i("tagg","loadItemDetailData : " + itemCode);
 
         ModooHttpPriorityAsync httpPriorityAsync = new ModooHttpPriorityAsync(
@@ -84,48 +89,95 @@ public class ModooViewModel extends AndroidViewModel {
     }
 
 
-    public void loadItemListData(final int category){
+//    public void loadItemListData(final int category){
+//
+//        ModooHttpPriorityAsync httpPriorityAsync = new ModooHttpPriorityAsync(
+//                getApplication().getApplicationContext()
+//                , null  //local test
+//                , ModooConstants.HTTP_POST
+//                , false
+//                , new ModooHttpAsyncResponseListener() {
+//            @Override
+//            public void onPostExcute(String[] resultArr) {
+//                try {
+//                    String resultStr = resultArr[0];
+//
+//                    // local test
+//                    resultStr = ModooDataUtils.getListDataTest(category);
+//                    //
+//
+//                    ModooItemWrapper item = new Gson().fromJson(resultStr, ModooItemWrapper.class);
+//                    if(item == null){
+//                        setError(ModooApiCodes.API_RETURNCODE_UNKNOWN_ERROR);
+//                        return;
+//                    }
+//
+//                    if (item.resultCode.equalsIgnoreCase(ModooApiCodes.API_RETURNCODE_SUCCESS)) {
+//                        itemListData.setValue(item);
+//                    }
+//                }catch(Exception e){
+//                    e.printStackTrace();
+//                    setError(ModooApiCodes.API_RETURNCODE_UNKNOWN_ERROR);
+//                }
+//            }
+//        });
+//
+//        httpPriorityAsync.executeOnExecutor(ModooConstants.EXECUTOR, "" + category);
+//    }
 
-        ModooHttpPriorityAsync httpPriorityAsync = new ModooHttpPriorityAsync(
-                getApplication().getApplicationContext()
-                , null  //local test
-                , ModooConstants.HTTP_POST
-                , false
-                , new ModooHttpAsyncResponseListener() {
-            @Override
-            public void onPostExcute(String[] resultArr) {
-                try {
-                    String resultStr = resultArr[0];
+    public void loadItemListData(@NonNull final int category){
 
-                    Log.i("tagg","category : " + category);
-                    // local test
-                    resultStr = ModooDataUtils.getListDataTest(category);
-                    //
-                    Log.i("tagg","resultStr : " + resultStr);
-                    ModooItemWrapper item = new Gson().fromJson(resultStr, ModooItemWrapper.class);
-                    if(item == null){
-                        Log.i("tagg","ERROR 111");
+        HashMap pushData = new HashMap();
+        pushData.put("param1", "value1");
+        pushData.put("param2", "value2");
+
+        try {
+            Call<ResponseBody> testPost = RetrofitClient.getInstance().modooApi.testRequest(pushData);
+
+            testPost.enqueue(new Callback<ResponseBody>() {
+                @Override
+                public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                    try {
+
+                        Log.i("tagg","response : " + response.body().string());
+//                        if(response == null || !response.isSuccessful()){
+//                            setError(ModooApiCodes.API_RETURNCODE_UNKNOWN_ERROR);
+//                            return;
+//                        }
+
+//                        ResponseBody body = response.body();
+//                        String resultStr = body.string();
+
+                        // local test
+                        String resultStr = ModooDataUtils.getListDataTest(category);
+                        //
+
+                        ModooItemWrapper item = new Gson().fromJson(resultStr, ModooItemWrapper.class);
+                        if(item == null){
+                            setError(ModooApiCodes.API_RETURNCODE_UNKNOWN_ERROR);
+                            return;
+                        }
+
+                        if (item.resultCode.equalsIgnoreCase(ModooApiCodes.API_RETURNCODE_SUCCESS)) {
+                            itemListData.setValue(item);
+                        }
+                    } catch (Exception e) {
+                        logger.error("loadItemListData enqueue ERROR : ", e);
                         setError(ModooApiCodes.API_RETURNCODE_UNKNOWN_ERROR);
-                        return;
                     }
+                }
 
-                    if (item.resultCode.equalsIgnoreCase(ModooApiCodes.API_RETURNCODE_SUCCESS)) {
-                        itemListData.setValue(item);
-                    }
-                }catch(Exception e){
-                    e.printStackTrace();
-                    Log.i("tagg","ERROR 222");
+                @Override
+                public void onFailure(Call<ResponseBody> call, Throwable t) {
                     setError(ModooApiCodes.API_RETURNCODE_UNKNOWN_ERROR);
                 }
-            }
-        });
-
-        httpPriorityAsync.executeOnExecutor(ModooConstants.EXECUTOR, "" + category);
+            });
+        }catch(Exception e){
+            logger.error("loadItemListData ERROR : ", e);
+        }
     }
 
     private void setError(String errorCode){
-        Log.i("tagg","errorCode : " + errorCode);
-
         ModooItemWrapper errorResult = new ModooItemWrapper();
         errorResult.resultCode = errorCode;
         errorResult.resultMsg = getApplication().getResources().getString(

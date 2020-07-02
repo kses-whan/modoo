@@ -510,9 +510,6 @@ public class ModooHttpClient implements ModooHttpParams {
 
     private static boolean disableTruestAllHosts = false;    // trustAllHosts 가 인증 관련 기능을 무효화할지 여부(사설 인증서도 사용 가능해짐)
     private static boolean isCallOnlyOneForTrustAllHosts = true;    // trustAllHosts 를 한번만 호출할 것인지 여부
-    // 근거 => TITLE : HttpsURLConnection.setDefaultSSLSocketFactory() 는 최초 1회만 호출되면 됨
-    // HttpsURLConnection.setDefaultSSLSocketFactory() 함수를 매번 호출할 필요 없이 1회만 호출하면 됨.
-    // HttpsURLConnection.setDefaultSSLSocketFactory() 함수를 여러 번 호출하는 경우 "SSL handshake timed out" Exception 이 발생한 것일지도 모르겠음.
     private static boolean isCalledForTrustAllHosts = false;    // trustAllHosts 가 호출됐는지 여부
 
     private static void trustAllHosts() {
@@ -533,16 +530,11 @@ public class ModooHttpClient implements ModooHttpParams {
             SSLContext sc = null;
             try {
                 sc = SSLContext.getInstance("SSL");
-            } catch (NoSuchAlgorithmException e) {
-                logger.error("trustAllHosts - SSLContext.getInstance Exception=" + e.getMessage());
-            }
+            } catch (NoSuchAlgorithmException e) {}
             try {
                 sc.init(null, trustAllCerts, new java.security.SecureRandom());
-            } catch (KeyManagementException e) {
-                logger.error("trustAllHosts - getAcceptedIssuers Exception=" + e.getMessage());
-            }
+            } catch (KeyManagementException e) {}
             HttpsURLConnection.setDefaultSSLSocketFactory(sc.getSocketFactory());
-            logger.info("trustAllHosts - HttpsURLConnection.setDefaultSSLSocketFactory() is called.");
         } else {
             TrustManager[] trustAllCerts = new TrustManager[]{new X509TrustManager() {
                 public java.security.cert.X509Certificate[] getAcceptedIssuers() {

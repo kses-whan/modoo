@@ -24,7 +24,6 @@ public class Log4jHelper {
     }
 
     public static Log4jHelper getInstance() {
-
         if (uniqueInstance == null) {
             synchronized (Log4jHelper.class) {
                 if (uniqueInstance == null) {
