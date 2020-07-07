@@ -72,6 +72,8 @@
 
         <activity android:name=".activity.ModooLoginActivity"/>
 
+        <activity android:name=".activity.ModooTermsActivity"/>
+
         <activity android:name=".activity.ModooSettingsActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MANAGE_NETWORK_USAGE" />

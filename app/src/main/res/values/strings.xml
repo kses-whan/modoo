@@ -30,14 +30,14 @@
     <string name="terms_conditions">Terms \u0026 Conditions</string>
     <string name="help_center">Help Center</string>
 
-    <string name="search_hint">Search for Products, Brands and More</string>
+    <string name="search_hint">검색</string>
 
 
     <!--Intro slider texts -->
     <string name="title_activity_welcome">Home Screen</string>
     <string name="next">다음</string>
     <string name="skip">건너뛰기</string>
-    <string name="start">바로시작</string>
+    <string name="start">시작</string>
 
     <string name="slide_1_title">Hello Food!</string>
     <string name="slide_1_desc">The easiest way to order food from your favourite restaurant!
@@ -73,4 +73,35 @@
 
     <string name="settings_title_account">계정</string>
 
+
+
+
+    <!-- 모두의 구독 -->
+
+    <!-- 로그인 화면 -->
+    <string name="layout_login_companyname">회사명</string>
+    <string name="layout_login_staff">임직원</string>
+    <string name="layout_login_family">가족회원</string>
+    <string name="layout_login_id">ID/사번</string>
+    <string name="layout_login_pw">P W</string>
+    <string name="layout_login_autologin">자동로그인</string>
+    <string name="layout_login_showpw">비밀번호보기</string>
+    <string name="layout_login_login">로그인</string>
+    <string name="layout_login_kses">한국구독경제서비스(주)</string>
+    <string name="layout_login_companyinfo">사업자정보</string>
+    <string name="layout_login_private">개인정보처리방침</string>
+    <string name="layout_login_terms">이용약관</string>
+    <string name="layout_login_notification">공지사항</string>
+    <string name="layout_login_faq">FAQ</string>
+
+    <!-- 약관 화면 -->
+    <string name="layout_terms_title_agree">약관 동의</string>
+    <string name="layout_terms_title_signin">약관 동의 / 가입하기</string>
+    <string name="layout_terms_allagree">모두 동의</string>
+    <string name="layout_terms_agree">동의</string>
+    <string name="layout_terms_disagree">동의 안함</string>
+    <string name="layout_terms_agree1">(필수) 개인정보 수집/이용</string>
+    <string name="layout_terms_agree2">(필수) 이용약관 동의</string>
+    <string name="layout_terms_agree3">(선택) 이벤트 수신 알림 동의</string>
+    <string name="layout_terms_signin">회원가입</string>
 </resources>

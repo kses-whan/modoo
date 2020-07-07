@@ -26,20 +26,20 @@
             type="java.text.NumberFormat" />
         <variable
             name="modooitem"
-            type="com.icure.kses.modoo.vo.ModooItemList" />
+            type="com.icure.kses.modoo.vo.ModooListItem" />
     </data>
 
     <androidx.cardview.widget.CardView
         android:id="@+id/cardview"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="10.0dp"
-        android:layout_marginTop="0.0dp"
-        android:layout_marginRight="10.0dp"
-        android:layout_marginBottom="0.0dp"
-        card_view:cardCornerRadius="15dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginBottom="0dp"
+        card_view:cardCornerRadius="0dp"
         card_view:cardUseCompatPadding="true"
-        card_view:cardElevation="10dp">
+        card_view:cardElevation="5dp">
 
         <LinearLayout
             android:id="@+id/layout_item"

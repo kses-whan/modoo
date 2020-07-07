@@ -4,9 +4,9 @@
     <color name="colorPrimaryDark">#C2185B</color>
     <color name="colorAccent">#651FFF</color>-->
 
-    <color name="colorPrimary">#CD0000</color>
-    <color name="colorPrimaryDark">#CD0000</color>
-    <color name="colorAccent">#651FFF</color>
+    <color name="colorPrimary">#82F9B7</color>
+    <color name="colorPrimaryDark">#82F9B7</color>
+    <color name="colorAccent">#98DFFF</color>
 
     <color name="gen_black">#000000</color>
     <color name="gen_white">#FFFFFF</color>

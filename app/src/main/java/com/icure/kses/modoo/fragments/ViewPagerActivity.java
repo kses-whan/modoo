@@ -29,6 +29,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewGroup.LayoutParams;
 
+import com.bumptech.glide.Glide;
 import com.icure.kses.modoo.R;
 import com.icure.kses.modoo.photoview.view.PhotoView;
 import com.icure.kses.modoo.activity.ItemDetailsActivity;
@@ -96,9 +97,8 @@ public class ViewPagerActivity extends Activity {
         @Override
         public View instantiateItem(ViewGroup container, int position) {
             PhotoView photoView = new PhotoView(container.getContext());
-            Picasso.with(photoView.getContext())
+            Glide.with(photoView.getContext())
                     .load(detailImageUrls.get(position))
-                    .noFade()
                     .into(photoView);
 
             // Now just add PhotoView to ViewPager and return it
