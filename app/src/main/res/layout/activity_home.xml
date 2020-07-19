@@ -1,0 +1,166 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:clipToPadding="false"
+    android:orientation="vertical"
+    android:background="@color/gen_white">
+
+    <com.icure.kses.modoo.customview.ModooNestedScrollView
+        android:id="@+id/mnsv_home_pick"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+            
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Today's pick"/>
+
+            <RelativeLayout
+                android:id="@+id/rl_home_today"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:background="@color/gen_white">
+                <com.icure.kses.modoo.customview.cardstack.CardStackView
+                    android:id="@+id/ss_home_today"
+                    android:layout_width="match_parent"
+                    android:layout_height="500dp"/>
+            </RelativeLayout>
+            
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="000님 추천 pick"/>
+
+            <com.icure.kses.modoo.fragments.HackyViewPager
+                android:id="@+id/vp_home_pick"
+                android:layout_width="match_parent"
+                android:layout_height="200dp" />
+
+            <com.afollestad.viewpagerdots.DotsIndicator
+                android:id="@+id/di_home_pick"
+                android:layout_width="match_parent"
+                android:layout_height="20dp"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Best 구독"/>
+
+            <LinearLayout
+                android:id="@+id/ll_home_best"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="500dp"
+                    android:background="@color/stay_color"
+                    android:layout_marginBottom="20dp"/>
+
+                <net.vrgsoft.parallaxview.ParallaxView
+                    app:isInvertedVerticalParallax="true"
+                    app:isInvertedHorizontalParallax="false"
+                    app:isEnabledVerticalParallax="true"
+                    app:isEnabledHorizontalParallax="false"
+                    app:decelerateFactor="0.6"
+                    app:parallaxScale="2"
+                    app:isNeedScale="true"
+                    android:layout_width="match_parent"
+                    android:layout_height="500dp"
+                    android:background="@drawable/space"
+                    android:translationZ="@dimen/view_width_minus">
+<!--                    <androidx.appcompat.widget.AppCompatImageView-->
+<!--                        android:id="@+id/ivImage"-->
+<!--                        android:scaleType="centerCrop"-->
+<!--                        android:layout_width="match_parent"-->
+<!--                        -->
+<!--                        android:layout_height="wrap_content"/>-->
+                </net.vrgsoft.parallaxview.ParallaxView>
+
+                <com.skydoves.expandablelayout.ExpandableLayout
+                    android:id="@+id/expl_home"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:expandable_duration="300"
+                    app:expandable_isExpanded="false"
+                    app:expandable_animation="normal"
+                    app:expandable_parentLayout="@layout/layout_exp_parent"
+                    app:expandable_secondLayout="@layout/layout_exp_second"
+                    app:expandable_showSpinner="true"
+                    app:expandable_spinner="@drawable/ic_baseline_keyboard_arrow_down_24"
+                    app:expandable_spinner_animate="true"
+                    app:expandable_spinner_margin="14dp"
+                    app:expandable_spinner_size="32dp"
+                    app:expandable_spinner_color="@color/gen_black"/>
+
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="500dp"
+                    android:background="@color/stay_color"
+                    android:layout_marginBottom="20dp"/>
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="500dp"
+                    android:background="@color/stay_color"
+                    android:layout_marginBottom="20dp"/>
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="500dp"
+                    android:background="@color/stay_color"/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/tv_home_sticky"
+                android:layout_width="match_parent"
+                android:layout_height="150dp"
+                android:background="@android:color/holo_orange_dark">
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:text="Stick View"
+                    android:layout_gravity="center"
+                    android:gravity="center"/>
+            </LinearLayout>
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="500dp"
+                android:background="@color/stay_color"
+                android:layout_marginBottom="20dp"/>
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="500dp"
+                android:background="@color/stay_color"
+                android:layout_marginBottom="20dp"/>
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="500dp"
+                android:background="@color/stay_color"
+                android:layout_marginBottom="20dp"/>
+            
+        </LinearLayout>
+
+    </com.icure.kses.modoo.customview.ModooNestedScrollView>
+
+    <include layout="@layout/home_title"/>
+
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:id="@+id/bnv_view"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        app:menu="@menu/bottom_navi_menu"
+        android:layout_gravity="bottom"/>
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

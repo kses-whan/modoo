@@ -15,25 +15,24 @@
  * limitations under the License.
  * *****************************************************************************
  */
-package com.icure.kses.modoo.fragments;
+package com.icure.kses.modoo.activity;
 
 import android.app.Activity;
 import android.os.Build;
 import android.os.Bundle;
-import androidx.annotation.NonNull;
-import androidx.viewpager.widget.PagerAdapter;
-import androidx.viewpager.widget.ViewPager;
-
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewGroup.LayoutParams;
 
+import androidx.annotation.NonNull;
+import androidx.viewpager.widget.PagerAdapter;
+import androidx.viewpager.widget.ViewPager;
+
 import com.bumptech.glide.Glide;
 import com.icure.kses.modoo.R;
+import com.icure.kses.modoo.fragments.HackyViewPager;
 import com.icure.kses.modoo.photoview.view.PhotoView;
-import com.icure.kses.modoo.activity.ItemDetailsActivity;
-import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
@@ -61,7 +60,7 @@ public class ViewPagerActivity extends Activity {
         setContentView(mViewPager);
 
         if (getIntent() != null) {
-            detailImageUrls = getIntent().getStringArrayListExtra(ItemDetailsActivity.DETAIL_IMAGE_LIST);
+            detailImageUrls = getIntent().getStringArrayListExtra(ModooItemDetailsActivity.DETAIL_IMAGE_LIST);
 
             if(detailImageUrls == null){
                 Log.i("tagg","detailImageUrls is null");

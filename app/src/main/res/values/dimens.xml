@@ -26,4 +26,10 @@
 
     <dimen name="img_thumb_height">200dp</dimen>
 
+    <dimen name="appbar_elevation">5dp</dimen>
+
+    <dimen name="view_width_minus">-1dp</dimen>
+
+    <dimen name="today_elevation">30dp</dimen>
+
 </resources>

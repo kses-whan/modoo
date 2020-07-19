@@ -1,8 +1,12 @@
 package com.icure.kses.modoo.activity
 
+import android.content.DialogInterface
 import android.content.Intent
 import android.os.Bundle
+import android.os.Handler
 import android.text.method.ScrollingMovementMethod
+import android.util.Log
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import com.icure.kses.modoo.R
 import kotlinx.android.synthetic.main.activity_terms.*
@@ -26,7 +30,7 @@ class ModooTermsActivity : AppCompatActivity() {
         tv_terms_agree3.movementMethod = ScrollingMovementMethod()
 
         btn_terms_signin.setOnClickListener {
-            startMainActivity();
+            showDialog()
         }
 
         cb_terms_agreeall.setOnCheckedChangeListener { buttonView, isChecked ->
@@ -43,10 +47,28 @@ class ModooTermsActivity : AppCompatActivity() {
     }
 
     private fun startMainActivity() {
-        val toMainIntent = Intent(this@ModooTermsActivity, ModooMainActivity::class.java)
+        val toMainIntent = Intent(this@ModooTermsActivity, ModooHomeActivity::class.java)
         toMainIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK)
         toMainIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
         startActivity(toMainIntent)
         finish()
+    }
+
+    private fun showDialog(){
+        try {
+            AlertDialog.Builder(this)
+                    .setMessage(resources.getString(R.string.dialog_terms_msg))
+                    .setPositiveButton(R.string.dialog_terms_ok, DialogInterface.OnClickListener { dialog, which ->
+                        dialog.dismiss()
+                        Handler().postDelayed({
+                            startMainActivity()
+                        }, 10)
+                    })
+                    .setNegativeButton(R.string.dialog_terms_cancel, DialogInterface.OnClickListener { dialog, which ->
+                        dialog.dismiss()
+                    }).create().show()
+        } catch(e:Exception){
+            Log.e("tagg","ModooTermsActivity showDialog ERROR : ", e)
+        }
     }
 }

@@ -4,7 +4,6 @@ import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.View
-import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
@@ -306,7 +305,7 @@ class ModooLoginActivity : AppCompatActivity() {
     }
 
     private fun startMainActivity() {
-        val toMainIntent = Intent(this@ModooLoginActivity, ModooMainActivity::class.java)
+        val toMainIntent = Intent(this@ModooLoginActivity, ModooHomeActivity::class.java)
         toMainIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK)
         toMainIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
         startActivity(toMainIntent)

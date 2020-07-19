@@ -26,7 +26,6 @@ class ModooViewModel(application: Application) : AndroidViewModel(application) {
     }
 
     fun getItemListData(category: Int): LiveData<ModooHttpItemWrapper>? {
-        Log.i("tagg","111111111");
         loadItemListData(category)
         return itemData
     }
@@ -109,7 +108,6 @@ class ModooViewModel(application: Application) : AndroidViewModel(application) {
                                 return
                             }
                             if (item.resultCode.equals(ModooApiCodes.API_RETURNCODE_SUCCESS, ignoreCase = true)) {
-                                Log.i("tagg","22222222");
                                 itemData?.let { it.setValue(item) }
                             }
                         } catch (e: Exception) {
@@ -183,7 +181,7 @@ class ModooViewModel(application: Application) : AndroidViewModel(application) {
                 getApplication<Application>().resources.getIdentifier("http_result_msg_error_$errorCode", "string", getApplication<Application>().packageName))
         errorResult.itemList = null
         errorResult.itemDetail = null
-        if (itemData != null) itemData!!.value = errorResult
+        itemData?.let{ it.value = errorResult }
     }
 
     companion object {

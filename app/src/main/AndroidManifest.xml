@@ -11,7 +11,7 @@
         android:icon="@mipmap/ic_launcher_bag"
         android:label="@string/app_name"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme">
+        android:theme="@style/AppTheme.NoActionBar">
 
         <meta-data
             android:name="com.kakao.sdk.AppKey"
@@ -30,9 +30,9 @@
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
 
-            <meta-data
+            <!--<meta-data
                 android:name="android.app.default_searchable"
-                android:value=".options.SearchResultsActivity"/>
+                android:value=".options.SearchResultsActivity"/>-->
         </activity>
 
         <activity
@@ -41,12 +41,18 @@
         </activity>
 
         <activity
-            android:name=".activity.ModooMainActivity">
+            android:name=".activity.ModooHomeActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.SEARCH"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+            </intent-filter>
+
+            <!--<meta-data
+                android:name="android.app.searchable"
+                android:resource="@xml/searchable"/>-->
         </activity>
 
-        <activity android:name=".fragments.ViewPagerActivity"/>
-
-        <activity android:name=".activity.ItemDetailsActivity"/>
+        <activity android:name=".activity.ModooItemDetailsActivity"/>
 
         <activity
             android:name=".options.WishlistActivity"
@@ -58,13 +64,11 @@
             android:label="@string/my_cart">
         </activity>
 
-        <activity android:name=".options.SearchResultActivity">
-            <!-- to identify this activity as "searchable.xml" -->
+        <activity android:name=".activity.ModooSearchActivity">
             <intent-filter>
                 <action android:name="android.intent.action.SEARCH"/>
                 <category android:name="android.intent.category.DEFAULT"/>
             </intent-filter>
-
             <meta-data
                 android:name="android.app.searchable"
                 android:resource="@xml/searchable"/>
@@ -81,6 +85,11 @@
             </intent-filter>
         </activity>
 
+        <!-- 연관검색어 -->
+        <provider android:name=".miscellaneous.ModooSuggestionProvider"
+            android:authorities="com.icure.kses.modoo.miscellaneous.ModooSuggestionProvider"
+            android:exported="false"
+            android:enabled="true"/>
 
         <!-- FireBase -->
         <service

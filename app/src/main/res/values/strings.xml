@@ -6,17 +6,16 @@
     <string name="navigation_drawer_close">Close navigation drawer</string>
 
     <!--Menu item texts -->
-    <string name="action_settings">Settings</string>
-    <string name="action_search">Search</string>
-    <string name="action_cart">Cart</string>
-    <string name="action_notifications">Notifications</string>
+    <string name="action_settings">설정</string>
+    <string name="action_search">검색</string>
+    <string name="action_cart">장바구니</string>
+    <string name="action_notifications">알림</string>
 
-    <string name="item_1">Today</string>
-    <string name="item_2">Subscriptions</string>
-    <!--<string name="item_3">의류</string>
-    <string name="item_4">생활</string>
-    <string name="item_5">책</string>
-    <string name="item_6">기타</string>-->
+    <string name="menu_item_1">카테고리</string>
+    <string name="menu_item_2">검색</string>
+    <string name="menu_item_3">홈</string>
+    <string name="menu_item_4">마이페이지</string>
+    <string name="menu_item_5">장바구니</string>
 
     <string name="my_profile">My Profile</string>
     <string name="my_rewards">선물함</string>
@@ -62,21 +61,20 @@
     <string name="http_result_msg_error_e999">알수없는 오류</string>
 
     <string name="menu_update">Refresh Main Content</string>
-    <string name="auto_login_prompt">Auto Login?</string>
+    <string name="auto_login_prompt">자동로그인?</string>
     <string name="logout_prompt">Logout</string>
-    <string name="min_price_prompt">Minimum Price</string>
-    <string name="menu_settings">Settings</string>
+    <string name="min_price_prompt">최소가</string>
+    <string name="menu_settings">설정</string>
 
     <string name="confirm_payment">결제완료</string>
-    <string name="dialog_ok">OK</string>
-    <string name="dialog_cancel">CANCEL</string>
-
     <string name="settings_title_account">계정</string>
 
 
 
 
-    <!-- 모두의 구독 -->
+    <!-- 공통 -->
+    <string name="dialog_ok">확인</string>
+    <string name="dialog_cancel">취소</string>
 
     <!-- 로그인 화면 -->
     <string name="layout_login_companyname">회사명</string>
@@ -104,4 +102,7 @@
     <string name="layout_terms_agree2">(필수) 이용약관 동의</string>
     <string name="layout_terms_agree3">(선택) 이벤트 수신 알림 동의</string>
     <string name="layout_terms_signin">회원가입</string>
+    <string name="dialog_terms_msg">모두의 구독 서비스에\n가입하시겠습니까?</string>
+    <string name="dialog_terms_ok">예</string>
+    <string name="dialog_terms_cancel">처음으로</string>
 </resources>

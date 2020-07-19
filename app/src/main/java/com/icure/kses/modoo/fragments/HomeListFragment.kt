@@ -15,10 +15,8 @@
  */
 package com.icure.kses.modoo.fragments
 
-import android.content.Context
 import android.content.SharedPreferences.OnSharedPreferenceChangeListener
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -27,28 +25,27 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.preference.PreferenceManager
-import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.icure.kses.modoo.R
-import com.icure.kses.modoo.activity.ModooMainActivity
+import com.icure.kses.modoo.activity.ModooHomeActivity
 import com.icure.kses.modoo.activity.ModooSettingsActivity
-import com.icure.kses.modoo.adapter.SimpleStringRecyclerViewAdapter
+import com.icure.kses.modoo.adapter.ModooRecyclerViewAdapter
 import com.icure.kses.modoo.constant.ModooApiCodes
 import com.icure.kses.modoo.model.ModooViewModel
 import com.icure.kses.modoo.vo.ModooListItem
 import kotlinx.android.synthetic.main.layout_recylerview_list.*
 
-class ImageListFragment : Fragment() {
+class HomeListFragment : Fragment() {
     var mSwipeToRefreshView: SwipeRefreshLayout? = null
-    var category = 0
     var moDooViewModel: ModooViewModel? = null
-    var simpleStringRecyclerViewAdapter: SimpleStringRecyclerViewAdapter? = null
+    var simpleStringRecyclerViewAdapter: ModooRecyclerViewAdapter? = null
+    var menuNum = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        category = this.requireArguments().getInt("type")
-        mActivity = activity as ModooMainActivity
+        menuNum = this.requireArguments().getInt("menu")
+        mActivity = activity as ModooHomeActivity
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -58,13 +55,12 @@ class ImageListFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        mSwipeToRefreshView?.setOnRefreshListener { updateItemList(category) }
+        mSwipeToRefreshView?.setOnRefreshListener { updateItemList(menuNum) }
     }
 
     private fun setupRecyclerView(items: List<ModooListItem>?) {
         recyclerview?.let {
-            Log.i("tagg","55555555555")
-            simpleStringRecyclerViewAdapter = SimpleStringRecyclerViewAdapter(mActivity as ModooMainActivity, items)
+            simpleStringRecyclerViewAdapter = ModooRecyclerViewAdapter(mActivity as ModooHomeActivity, items)
             it.adapter = simpleStringRecyclerViewAdapter
             it.layoutManager = StaggeredGridLayoutManager(1, StaggeredGridLayoutManager.VERTICAL)
             it.setHasFixedSize(true)
@@ -86,12 +82,11 @@ class ImageListFragment : Fragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         moDooViewModel = ViewModelProviders.of(this).get(ModooViewModel::class.java)
-        moDooViewModel?.getItemListData(category)?.observe(viewLifecycleOwner, Observer {
+        moDooViewModel?.getItemListData(menuNum)?.observe(viewLifecycleOwner, Observer {
             it?.let {
                 if (!it.resultCode.equals(ModooApiCodes.API_RETURNCODE_SUCCESS, ignoreCase = true)) {
                     return@Observer
                 }
-                Log.i("tagg","33333333");
                 setItems(it.itemList)
             }
         })
@@ -101,18 +96,17 @@ class ImageListFragment : Fragment() {
 
     private val mPrefListener = OnSharedPreferenceChangeListener { sharedPreferences, key ->
         if (ModooSettingsActivity.PREF_PRICES == key) {
-            val items = moDooViewModel?.getItemListData(category)?.value?.itemList
+            val items = moDooViewModel?.getItemListData(menuNum)?.value?.itemList
             items?.let { setItems(it) }
         }
     }
 
     fun setItems(items: MutableList<ModooListItem>?) {
-        Log.i("tagg","setItems!!!")
         updateFromPreferences()
 
         items?.let { it ->
             for (i in it.indices.reversed()) {
-                if (it[i].itemPrice < mMinPrice.toLong()) {
+                if (it[i].itemPrice < mMinPrice!!.toLong()) {
                     it.removeAt(i)
                 }
             }
@@ -128,14 +122,19 @@ class ImageListFragment : Fragment() {
         }
     }
 
-    private var mMinPrice = 0
+    private var mMinPrice:Int? = 0
     private fun updateFromPreferences() {
-        mMinPrice = PreferenceManager.getDefaultSharedPreferences(context).getString(ModooSettingsActivity.PREF_PRICES, "0")!!.toInt()
+        mMinPrice = PreferenceManager.getDefaultSharedPreferences(context).getString(ModooSettingsActivity.PREF_PRICES, "0")?.toInt()
+    }
+
+    override fun onResume() {
+        super.onResume()
+        mActivity?.supportActionBar?.setTitle(R.string.menu_item_3)
     }
 
     companion object {
         const val STRING_IMAGE_URI = "STRING_IMAGE_URI"
         const val STRING_ITEM_CODE = "STRING_ITEM_CODE"
-        private var mActivity: ModooMainActivity? = null
+        private var mActivity: ModooHomeActivity? = null
     }
 }

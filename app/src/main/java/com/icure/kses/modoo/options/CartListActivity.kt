@@ -16,10 +16,9 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.icure.kses.modoo.R
-import com.icure.kses.modoo.activity.ItemDetailsActivity
-import com.icure.kses.modoo.activity.ModooMainActivity
-import com.icure.kses.modoo.fragments.ImageListFragment
-import com.icure.kses.modoo.options.CartListActivity
+import com.icure.kses.modoo.activity.ModooItemDetailsActivity
+import com.icure.kses.modoo.activity.ModooHomeActivity
+import com.icure.kses.modoo.fragments.HomeListFragment
 import com.icure.kses.modoo.utility.ModooDataUtils
 import com.icure.kses.modoo.vo.ModooListItem
 import kotlinx.android.synthetic.main.activity_cart_list.*
@@ -79,9 +78,9 @@ class CartListActivity : AppCompatActivity() {
                     .load(uri)
                     .into(holder.mImageView)
             holder.mLayoutItem.setOnClickListener {
-                val intent = Intent(mContext, ItemDetailsActivity::class.java)
-                intent.putExtra(ImageListFragment.STRING_ITEM_CODE, mCartlist[position].itemCode)
-                intent.putExtra(ImageListFragment.STRING_IMAGE_URI, mCartlist[position].repImageUrl)
+                val intent = Intent(mContext, ModooItemDetailsActivity::class.java)
+                intent.putExtra(HomeListFragment.STRING_ITEM_CODE, mCartlist[position].itemCode)
+                intent.putExtra(HomeListFragment.STRING_IMAGE_URI, mCartlist[position].repImageUrl)
                 mContext!!.startActivity(intent)
             }
 
@@ -91,7 +90,7 @@ class CartListActivity : AppCompatActivity() {
                 modooDataUtils.removeCartList(position)
                 notifyDataSetChanged()
                 //Decrease notification count
-                ModooMainActivity.notificationCountCart--
+                ModooHomeActivity.notificationCountCart--
             }
 
             //Set click action
@@ -105,7 +104,7 @@ class CartListActivity : AppCompatActivity() {
     }
 
     protected fun setCartLayout() {
-        if (ModooMainActivity.notificationCountCart > 0) {
+        if (ModooHomeActivity.notificationCountCart > 0) {
             layout_cart_empty.visibility = View.GONE
             layout_items.visibility = View.VISIBLE
             layout_payment.visibility = View.VISIBLE

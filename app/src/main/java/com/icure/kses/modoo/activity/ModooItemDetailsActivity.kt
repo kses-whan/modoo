@@ -17,8 +17,7 @@ import com.google.firebase.analytics.FirebaseAnalytics
 import com.icure.kses.modoo.R
 import com.icure.kses.modoo.constant.ModooApiCodes
 import com.icure.kses.modoo.constant.ModooConstants
-import com.icure.kses.modoo.fragments.ImageListFragment
-import com.icure.kses.modoo.fragments.ViewPagerActivity
+import com.icure.kses.modoo.fragments.HomeListFragment
 import com.icure.kses.modoo.model.ModooViewModel
 import com.icure.kses.modoo.notification.NotificationCountSetClass
 import com.icure.kses.modoo.options.CartListActivity
@@ -26,9 +25,8 @@ import com.icure.kses.modoo.utility.ModooDataUtils
 import com.icure.kses.modoo.vo.ModooItemDetail
 import com.icure.kses.modoo.vo.ModooListItem
 import kotlinx.android.synthetic.main.activity_item_details.*
-import java.util.*
 
-class ItemDetailsActivity : AppCompatActivity() {
+class ModooItemDetailsActivity : AppCompatActivity() {
     private var mFirebaseAnalytics: FirebaseAnalytics? = null
     var stringImageUri: String? = null
     var stringItemCode: String? = null
@@ -59,17 +57,17 @@ class ItemDetailsActivity : AppCompatActivity() {
 
     private fun handleIntent() {
         intent.let {
-            stringImageUri = intent.getStringExtra(ImageListFragment.STRING_IMAGE_URI)
-            stringItemCode = intent.getStringExtra(ImageListFragment.STRING_ITEM_CODE)
+            stringImageUri = intent.getStringExtra(HomeListFragment.STRING_IMAGE_URI)
+            stringItemCode = intent.getStringExtra(HomeListFragment.STRING_ITEM_CODE)
         }
     }
 
     private fun handleHttpData() {
-        moDooViewModel = ViewModelProviders.of(this@ItemDetailsActivity).get(ModooViewModel::class.java)
-        moDooViewModel?.getItemDetailData(stringItemCode)?.observe(this@ItemDetailsActivity, Observer { modooItemWrapper ->
+        moDooViewModel = ViewModelProviders.of(this@ModooItemDetailsActivity).get(ModooViewModel::class.java)
+        moDooViewModel?.getItemDetailData(stringItemCode)?.observe(this@ModooItemDetailsActivity, Observer { modooItemWrapper ->
             modooItemWrapper?.let {
                 if (!modooItemWrapper.resultCode.equals(ModooApiCodes.API_RETURNCODE_SUCCESS, ignoreCase = true)) {
-                    Toast.makeText(this@ItemDetailsActivity, "getItemDetailData Error 1", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(this@ModooItemDetailsActivity, "getItemDetailData Error 1", Toast.LENGTH_SHORT).show()
                     return@Observer
                 }
                 setDetail(modooItemWrapper.itemDetail)
@@ -83,15 +81,15 @@ class ItemDetailsActivity : AppCompatActivity() {
             return
         }
         image1.setOnClickListener {
-            val intent = Intent(this@ItemDetailsActivity, ViewPagerActivity::class.java)
+            val intent = Intent(this@ModooItemDetailsActivity, ViewPagerActivity::class.java)
             intent.putStringArrayListExtra(DETAIL_IMAGE_LIST, modooItemDetail.detailImageUrls)
             startActivity(intent)
             overridePendingTransition(R.anim.activity_fade_in, R.anim.activity_fade_out)
         }
         text_action_bottom1.setOnClickListener {
             ModooDataUtils().addCartList(createModooListItem(modooItemDetail))
-            Toast.makeText(this@ItemDetailsActivity, "Item added to cart.", Toast.LENGTH_SHORT).show()
-            NotificationCountSetClass.setNotifyCount(++ModooMainActivity.notificationCountCart)
+            Toast.makeText(this@ModooItemDetailsActivity, "Item added to cart.", Toast.LENGTH_SHORT).show()
+            NotificationCountSetClass.setNotifyCount(++ModooHomeActivity.notificationCountCart)
 
             //analytics event
             val bundle = Bundle()
@@ -101,13 +99,20 @@ class ItemDetailsActivity : AppCompatActivity() {
         }
         text_action_bottom2.setOnClickListener {
             ModooDataUtils().addCartList(createModooListItem(modooItemDetail))
-            NotificationCountSetClass.setNotifyCount(++ModooMainActivity.notificationCountCart)
-            startActivity(Intent(this@ItemDetailsActivity, CartListActivity::class.java))
+            NotificationCountSetClass.setNotifyCount(++ModooHomeActivity.notificationCountCart)
+            startActivity(Intent(this@ModooItemDetailsActivity, CartListActivity::class.java))
         }
     }
 
     private fun createModooListItem(modooItemDetail: ModooItemDetail): ModooListItem {
-        return ModooListItem(modooItemDetail.itemCode, modooItemDetail.thumbUrl, modooItemDetail.repImageUrl, modooItemDetail.itemName, modooItemDetail.itemPrice, modooItemDetail.itemCreateDate)
+        return ModooListItem(
+                modooItemDetail.itemCode,
+                modooItemDetail.thumbUrl,
+                modooItemDetail.repImageUrl,
+                modooItemDetail.itemName,
+                modooItemDetail.itemPrice,
+                modooItemDetail.itemCreateDate
+        )
     }
 
     private fun loadImage() {

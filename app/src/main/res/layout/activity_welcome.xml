@@ -7,26 +7,25 @@
     tools:showIn="@layout/activity_welcome">
 
 
-    <androidx.viewpager.widget.ViewPager
-        android:id="@+id/view_pager"
+    <com.icure.kses.modoo.fragments.HackyViewPager
+        android:id="@+id/vp_welcome"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 
-    <LinearLayout
-        android:id="@+id/layoutDots"
+    <com.afollestad.viewpagerdots.DotsIndicator
+        android:id="@+id/di_welcome"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/dots_height"
-        android:layout_alignParentBottom="true"
-        android:layout_marginBottom="@dimen/dots_margin_bottom"
-        android:gravity="center"
-        android:orientation="horizontal"></LinearLayout>
+        android:layout_height="50dp"
+        app:dot_tint="@android:color/holo_blue_bright"
+        android:layout_alignParentBottom="true"/>
 
-    <View
+    <!--<View
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:alpha=".5"
-        android:layout_above="@id/layoutDots"
-        android:background="@android:color/white" />
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="70dp"
+        android:background="@android:color/white" />-->
 
     <Button
         android:id="@+id/btn_next"

@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:weightSum="10"
-    tools:context="com.icure.kses.modoo.activity.ItemDetailsActivity">
+    tools:context="com.icure.kses.modoo.activity.ModooItemDetailsActivity">
 
     <ScrollView
         android:id="@+id/scrollbar"

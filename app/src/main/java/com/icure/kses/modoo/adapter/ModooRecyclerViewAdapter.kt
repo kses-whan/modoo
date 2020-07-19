@@ -4,8 +4,8 @@ import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Intent
 import android.net.Uri
-import android.util.Log
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.core.app.ActivityCompat
@@ -14,20 +14,18 @@ import androidx.core.util.Pair
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.icure.kses.modoo.R
-import com.icure.kses.modoo.activity.ItemDetailsActivity
+import com.icure.kses.modoo.activity.ModooItemDetailsActivity
 import com.icure.kses.modoo.databinding.ListItemBinding
-import com.icure.kses.modoo.fragments.ImageListFragment
+import com.icure.kses.modoo.fragments.HomeListFragment
 import com.icure.kses.modoo.utility.ModooDataUtils
 import com.icure.kses.modoo.vo.ModooListItem
-import com.squareup.picasso.Picasso
-import org.apache.commons.io.FilenameUtils
 import java.text.NumberFormat
 import java.text.SimpleDateFormat
 import java.util.*
 
-class SimpleStringRecyclerViewAdapter(var activity: Activity, var mItems: List<ModooListItem>?) : RecyclerView.Adapter<SimpleStringRecyclerViewAdapter.ViewHolder>() {
+class ModooRecyclerViewAdapter(var activity: Activity, var mItems: List<ModooListItem>?) : RecyclerView.Adapter<ModooRecyclerViewAdapter.ViewHolder>() {
 
-    inner class ViewHolder(val listItemBinding: ListItemBinding) : RecyclerView.ViewHolder(listItemBinding.root) {
+    inner class ViewHolder(val listItemBinding: ListItemBinding) : RecyclerView.ViewHolder(listItemBinding.root){
         init {
             listItemBinding.timeformat = TIME_FORMAT
             listItemBinding.priceformat = PRICE_FORMAT
@@ -53,13 +51,14 @@ class SimpleStringRecyclerViewAdapter(var activity: Activity, var mItems: List<M
 
         holder.listItemBinding.cardview.setOnClickListener {
             val activityOptions = ActivityOptionsCompat.makeSceneTransitionAnimation(activity
-                    , Pair(holder.listItemBinding.image1, ItemDetailsActivity.VIEW_NAME_HEADER_IMAGE)
-                    , Pair(holder.listItemBinding.tvItemName, ItemDetailsActivity.VIEW_NAME_HEADER_NAME)
-                    , Pair(holder.listItemBinding.tvItemPrice, ItemDetailsActivity.VIEW_NAME_HEADER_PRICE))
-            val intent = Intent(activity, ItemDetailsActivity::class.java)
-            intent.putExtra(ImageListFragment.STRING_IMAGE_URI, mItems?.get(position)?.repImageUrl)
-            intent.putExtra(ImageListFragment.STRING_ITEM_CODE, mItems?.get(position)?.itemCode)
+                    , Pair(holder.listItemBinding.image1, ModooItemDetailsActivity.VIEW_NAME_HEADER_IMAGE)
+                    , Pair(holder.listItemBinding.tvItemName, ModooItemDetailsActivity.VIEW_NAME_HEADER_NAME)
+                    , Pair(holder.listItemBinding.tvItemPrice, ModooItemDetailsActivity.VIEW_NAME_HEADER_PRICE))
+            val intent = Intent(activity, ModooItemDetailsActivity::class.java)
+            intent.putExtra(HomeListFragment.STRING_IMAGE_URI, mItems?.get(position)?.repImageUrl)
+            intent.putExtra(HomeListFragment.STRING_ITEM_CODE, mItems?.get(position)?.itemCode)
             ActivityCompat.startActivity(activity, intent, activityOptions.toBundle())
+            activity.overridePendingTransition(R.anim.slide_up, R.anim.scale_down)
         }
         holder.listItemBinding.icWishlist.setOnClickListener {
 

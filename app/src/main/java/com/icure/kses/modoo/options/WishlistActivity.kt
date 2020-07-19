@@ -14,9 +14,8 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.icure.kses.modoo.R
-import com.icure.kses.modoo.activity.ItemDetailsActivity
-import com.icure.kses.modoo.fragments.ImageListFragment
-import com.icure.kses.modoo.options.WishlistActivity
+import com.icure.kses.modoo.activity.ModooItemDetailsActivity
+import com.icure.kses.modoo.fragments.HomeListFragment
 import com.icure.kses.modoo.utility.ModooDataUtils
 import com.icure.kses.modoo.vo.ModooListItem
 import kotlinx.android.synthetic.main.layout_recylerview_list.*
@@ -62,9 +61,9 @@ class WishlistActivity : AppCompatActivity() {
                     .load(uri)
                     .into(holder.mImageView)
             holder.mLayoutItem.setOnClickListener {
-                val intent = Intent(mContext, ItemDetailsActivity::class.java)
-                intent.putExtra(ImageListFragment.STRING_ITEM_CODE, mWishlist[position].itemCode)
-                intent.putExtra(ImageListFragment.STRING_IMAGE_URI, mWishlist[position].repImageUrl)
+                val intent = Intent(mContext, ModooItemDetailsActivity::class.java)
+                intent.putExtra(HomeListFragment.STRING_ITEM_CODE, mWishlist[position].itemCode)
+                intent.putExtra(HomeListFragment.STRING_IMAGE_URI, mWishlist[position].repImageUrl)
                 mContext?.startActivity(intent)
             }
 
