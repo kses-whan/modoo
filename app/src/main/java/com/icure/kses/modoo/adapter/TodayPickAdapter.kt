@@ -30,7 +30,6 @@ class TodayPickAdapter(private val context: Context, private val todayDataset:Mu
             mRealImageView = cardView.findViewById<View>(R.id.iv_home_today_bg) as ImageView
             mTextView = cardView.findViewById<View>(R.id.tv_home_today_name) as TextView
             mainView = cardView
-
             mainView.setOnClickListener(this)
         }
 

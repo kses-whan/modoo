@@ -84,7 +84,7 @@ class ModooRecyclerViewAdapter(var activity: Activity, var mItems: List<ModooLis
     }
 
     override fun getItemCount(): Int {
-        if(mItems == null) return 0
+        mItems ?: return 0
         return mItems!!.size
     }
 

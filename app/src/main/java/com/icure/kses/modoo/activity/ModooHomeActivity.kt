@@ -20,6 +20,7 @@ import com.icure.kses.modoo.model.ModooViewModel
 import com.icure.kses.modoo.vo.ModooListItem
 import com.skydoves.expandablelayout.OnExpandListener
 import kotlinx.android.synthetic.main.activity_home.*
+import kotlinx.android.synthetic.main.search_bar.*
 
 class ModooHomeActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemSelectedListener, CardStackListener {
 
@@ -34,8 +35,8 @@ class ModooHomeActivity : AppCompatActivity(), BottomNavigationView.OnNavigation
 
         mnsv_home_pick.run {
             header = tv_home_sticky
-            stickListener = {}
-            freeListener = {}
+            stickListener = {v, i -> Log.i("tagg","stick!!!!${v.getId()} , ${i}")}
+            freeListener = {Log.i("tagg","free!!!!")}
         }
 
         expl_home.onExpandListener = object : OnExpandListener{
@@ -51,6 +52,8 @@ class ModooHomeActivity : AppCompatActivity(), BottomNavigationView.OnNavigation
 
         vp_home_pick?.adapter = PickViewPagerAdapter(this@ModooHomeActivity)
         di_home_pick.attachViewPager(vp_home_pick)
+
+        tv_searchbar_text.setOnClickListener { startActivity(Intent(this, ModooSearchActivity::class.java)) }
 
         moDooViewModel?.getItemListData(2)?.observe(this, Observer {
             it?.let {

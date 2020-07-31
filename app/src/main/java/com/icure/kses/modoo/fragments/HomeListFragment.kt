@@ -106,7 +106,7 @@ class HomeListFragment : Fragment() {
 
         items?.let { it ->
             for (i in it.indices.reversed()) {
-                if (it[i].itemPrice < mMinPrice!!.toLong()) {
+                if (it[i].itemPrice < mMinPrice.toLong()) {
                     it.removeAt(i)
                 }
             }
@@ -122,9 +122,9 @@ class HomeListFragment : Fragment() {
         }
     }
 
-    private var mMinPrice:Int? = 0
+    private var mMinPrice:Int = 0
     private fun updateFromPreferences() {
-        mMinPrice = PreferenceManager.getDefaultSharedPreferences(context).getString(ModooSettingsActivity.PREF_PRICES, "0")?.toInt()
+        mMinPrice = PreferenceManager.getDefaultSharedPreferences(context).getString(ModooSettingsActivity.PREF_PRICES, "0")?.toInt() ?: 0
     }
 
     override fun onResume() {

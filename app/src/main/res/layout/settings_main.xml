@@ -7,7 +7,6 @@
         android:id="@+id/preferences_fragment"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:name="com.icure.kses.modoo.activity.ModooSettingsActivity$PrefFragment"
-        />
+        android:name="com.icure.kses.modoo.activity.ModooSettingsActivity$PrefFragment"/>
 
 </FrameLayout>

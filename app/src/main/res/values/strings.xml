@@ -105,4 +105,7 @@
     <string name="dialog_terms_msg">모두의 구독 서비스에\n가입하시겠습니까?</string>
     <string name="dialog_terms_ok">예</string>
     <string name="dialog_terms_cancel">처음으로</string>
+
+    <!-- 검색& 검색 결과 화면 -->
+    <string name="layout_search_result">총 %1$d 개의 상품</string>
 </resources>

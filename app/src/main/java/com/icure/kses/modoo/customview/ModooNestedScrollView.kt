@@ -35,7 +35,7 @@ class ModooNestedScrollView : NestedScrollView, ViewTreeObserver.OnGlobalLayoutL
             }
         }
 
-    var stickListener: (View) -> Unit = {}
+    var stickListener: (View, Int) -> Unit = {v:View, i:Int ->}
     var freeListener: (View) -> Unit = {}
 
     private var mIsHeaderSticky = false
@@ -63,7 +63,7 @@ class ModooNestedScrollView : NestedScrollView, ViewTreeObserver.OnGlobalLayoutL
 
     private fun callStickListener() {
         if (!mIsHeaderSticky) {
-            stickListener(header ?: return)
+            stickListener(header ?: return, 1)
             mIsHeaderSticky = true
         }
     }

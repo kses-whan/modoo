@@ -13,7 +13,11 @@
         android:id="@+id/rl_abl_container"
         android:layout_width="match_parent"
         android:layout_height="60dp"
-        app:layout_scrollFlags="scroll|enterAlways">
+        app:layout_scrollFlags="scroll|enterAlways"
+        android:padding="8dp">
+
+        <include layout="@layout/search_bar"/>
+
     </RelativeLayout>
 
 </com.google.android.material.appbar.AppBarLayout>
