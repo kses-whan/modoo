@@ -28,4 +28,11 @@
         <item>50000</item>
         <item>100000</item>
     </string-array>
+    <string-array name="search_filter_options">
+        <item>인기순</item>
+        <item>판매순</item>
+        <item>최신순</item>
+        <item>높은가격순</item>
+        <item>낮은가격순</item>
+    </string-array>
 </resources>

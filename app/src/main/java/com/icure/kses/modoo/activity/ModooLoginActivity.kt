@@ -293,7 +293,7 @@ class ModooLoginActivity : AppCompatActivity() {
         parameter.put("staff",et_login_ezwel_id.text.toString())
         parameter.put("userid",et_login_ezwel_id.text.toString())
 
-        val mvm = ViewModelProviders.of(this).get(ModooViewModel::class.java)
+        val mvm = ViewModelProviders.of(this@ModooLoginActivity).get(ModooViewModel::class.java)
         mvm.getLoginData(parameter)?.observe(this, Observer {
             when(it.resultCode){
                 ModooApiCodes.API_RETURNCODE_SUCCESS -> {

@@ -17,8 +17,8 @@ import retrofit2.Callback
 import retrofit2.Response
 
 class ModooViewModel(application: Application) : AndroidViewModel(application) {
-    private var itemData: MutableLiveData<ModooHttpItemWrapper>? = MutableLiveData()
-    private var userData: MutableLiveData<ModooHttpUserInfoResult>? = MutableLiveData()
+    private var itemData: MutableLiveData<ModooHttpItemWrapper>? = null
+    private var userData: MutableLiveData<ModooHttpUserInfoResult>? = null
 
     fun getLoginData(parameter: Map<String, String>): LiveData<ModooHttpUserInfoResult>? {
         loadLoginData(parameter)
@@ -37,6 +37,7 @@ class ModooViewModel(application: Application) : AndroidViewModel(application) {
 
     fun loadLoginData(parameter: Map<String, String>){
         try {
+            userData = MutableLiveData()
             instance.testRequest(parameter)?.let {
                 it.enqueue(object : Callback<ResponseBody> {
                     override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
@@ -86,6 +87,7 @@ class ModooViewModel(application: Application) : AndroidViewModel(application) {
         )
 
         try {
+            itemData = MutableLiveData()
             val testPost = instance.testRequest(pushData)
             testPost?.let { it.enqueue(object : Callback<ResponseBody> {
                     override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
@@ -108,7 +110,10 @@ class ModooViewModel(application: Application) : AndroidViewModel(application) {
                                 return
                             }
                             if (item.resultCode.equals(ModooApiCodes.API_RETURNCODE_SUCCESS, ignoreCase = true)) {
-                                itemData?.let { it.setValue(item) }
+                                itemData?.let {
+                                    Log.i("tagg","setValue!!!!!!!!!")
+                                    it.setValue(item)
+                                }
                             }
                         } catch (e: Exception) {
                             logger.error("loadItemListData enqueue ERROR : ", e)
@@ -135,6 +140,7 @@ class ModooViewModel(application: Application) : AndroidViewModel(application) {
         )
 
         try {
+            itemData = MutableLiveData()
             val testPost = instance.testRequest(pushData)
             testPost.enqueue(object : Callback<ResponseBody> {
                 override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
@@ -175,13 +181,17 @@ class ModooViewModel(application: Application) : AndroidViewModel(application) {
     }
 
     private fun setError(errorCode: String) {
-        val errorResult = ModooHttpItemWrapper()
-        errorResult.resultCode = errorCode
-        errorResult.resultMsg = getApplication<Application>().resources.getString(
-                getApplication<Application>().resources.getIdentifier("http_result_msg_error_$errorCode", "string", getApplication<Application>().packageName))
-        errorResult.itemList = null
-        errorResult.itemDetail = null
-        itemData?.let{ it.value = errorResult }
+        try {
+            val errorResult = ModooHttpItemWrapper()
+            errorResult.resultCode = errorCode
+            errorResult.resultMsg = getApplication<Application>().resources.getString(
+                    getApplication<Application>().resources.getIdentifier("http_result_msg_error_$errorCode", "string", getApplication<Application>().packageName))
+            errorResult.itemList = null
+            errorResult.itemDetail = null
+            itemData?.let { it.value = errorResult }
+        }catch(e:Exception){
+            logger.error("setError ERROR : ", e)
+        }
     }
 
     companion object {

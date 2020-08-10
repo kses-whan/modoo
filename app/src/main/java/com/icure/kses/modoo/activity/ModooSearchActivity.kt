@@ -3,6 +3,9 @@ package com.icure.kses.modoo.activity
 import android.content.Context
 import android.os.Bundle
 import android.util.Log
+import android.view.View
+import android.widget.AdapterView
+import android.widget.ArrayAdapter
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
@@ -16,9 +19,8 @@ import com.icure.kses.modoo.model.ModooViewModel
 import com.icure.kses.modoo.utility.PrefManager
 import com.icure.kses.modoo.vo.ModooListItem
 import kotlinx.android.synthetic.main.activity_search_result.*
-import kotlinx.android.synthetic.main.layout_recylerview_list.*
 import okhttp3.internal.format
-import java.util.ArrayList
+import java.util.*
 
 class ModooSearchActivity : AppCompatActivity() {
 
@@ -35,17 +37,26 @@ class ModooSearchActivity : AppCompatActivity() {
 //        databaseHelper.selectAllHistoryTest()
 
         searchViewInit()
+        searchResultHeaderInit()
     }
 
     private fun doSearch(query: String?){
         moDooViewModel?.getItemListData(3)?.observe(this, Observer {
+            Log.i("tagg","getItemListData!! : ${it.resultCode}")
             it?.let {
                 if (!it.resultCode.equals(ModooApiCodes.API_RETURNCODE_SUCCESS, ignoreCase = true)) {
                     return@Observer
                 }
                 it.itemList?.let {
-                    setItems(it)
-                    tv_search_header_result.setText(format(getString(R.string.layout_search_result), it.size))
+                    setItems(
+                        when(sp_search_header_align?.selectedItemPosition){
+                            //높은가격순
+                            3 -> it.sortedBy { item -> item.itemPrice }?.reversed().toMutableList()
+                            //낮은가격순
+                            4 -> it.sortedBy { item -> item.itemPrice }.toMutableList()
+                            else -> it
+                        }
+                    )
                 }
             }
         })
@@ -72,18 +83,24 @@ class ModooSearchActivity : AppCompatActivity() {
 
 //        mSwipeToRefreshView?.isRefreshing = false
 
-        if (recyclerview?.adapter == null) {
+
+
+        if (rv_search_result?.adapter == null) {
+            Log.i("tagg","11111111111111")
             setupRecyclerView(items)
-            return
         } else {
-            modooRecyclerViewAdapter?.notifyDataSetChanged(items)
+            //기존리스트에 추가
+            items?.let {
+//                modooRecyclerViewAdapter?.notifyDataSetChanged(items)
+                modooRecyclerViewAdapter?.addDataset(items)
+            }
         }
+        modooRecyclerViewAdapter?.let { tv_search_header_result.setText(format(getString(R.string.layout_search_result), it.itemCount)) }
     }
 
     fun searchViewInit(){
         mdsv_search?.setOnQueryTextListener(object: ModooSearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String?): Boolean {
-                Log.i("tagg","onQueryTextSubmit : ${query}")
                 doSearch(query)
                 return false
             }
@@ -104,7 +121,6 @@ class ModooSearchActivity : AppCompatActivity() {
         mdsv_search?.run {
             itemClickListener = {view, i ->
                 var suggestion = mdsv_search?.getSuggestionAtPosition(i)
-                Log.i("tagg","suggestion : ${suggestion}")
                 mdsv_search?.setQuery(suggestion, false)
             }
         }
@@ -145,5 +161,34 @@ class ModooSearchActivity : AppCompatActivity() {
     override fun onResume() {
         super.onResume()
         mdsv_search.activityResumed()
+    }
+
+    fun searchResultHeaderInit(){
+        sp_search_header_align.adapter = ArrayAdapter(this, android.R.layout.simple_spinner_dropdown_item, resources.getStringArray(R.array.search_filter_options))
+        sp_search_header_align.onItemSelectedListener = object : AdapterView.OnItemSelectedListener{
+            override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
+                when(position){
+                    //인기순
+                    0 -> {}
+                    //판매순
+                    1 -> {}
+                    //최신순
+                    2 -> {}
+                    //높은가격순
+                    3 -> {
+                        modooRecyclerViewAdapter?.notifyDataSetChanged(modooRecyclerViewAdapter?.mItems?.sortedBy { item -> item.itemPrice }?.reversed())
+                    }
+                    //낮은가격순
+                    4 -> {
+                        modooRecyclerViewAdapter?.notifyDataSetChanged(modooRecyclerViewAdapter?.mItems?.sortedBy { item -> item.itemPrice })
+                    }
+                }
+            }
+
+            override fun onNothingSelected(parent: AdapterView<*>?) {
+                TODO("Not yet implemented")
+            }
+        }
+        sp_search_header_align.setSelection(0)
     }
 }

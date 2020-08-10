@@ -142,7 +142,6 @@ class ModooDatabaseHelper(var context: Context?) : SQLiteOpenHelper(context, DAT
                                         " = ?"
                                 , arrayOf(suggestion, 1.toString())
                         )
-                        Log.i("tagg","delete result : ${result} , suggestion : ${suggestion}")
                         db?.setTransactionSuccessful()
                     }catch(e:Exception){
                         Log.e("tagg","ModooDatabase removeSuggestion ERROR : ${e}")

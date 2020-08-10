@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Intent
 import android.net.Uri
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -95,6 +96,12 @@ class ModooRecyclerViewAdapter(var activity: Activity, var mItems: List<ModooLis
 
     fun notifyDataSetChanged(items: List<ModooListItem>?){
         mItems = items
+        notifyDataSetChanged()
+    }
+
+    fun addDataset(items: List<ModooListItem>){
+        Log.i("tagg","mItems : ${mItems?.size} , items : ${items.size}")
+        (mItems as MutableList<ModooListItem>).addAll(items)
         notifyDataSetChanged()
     }
 }

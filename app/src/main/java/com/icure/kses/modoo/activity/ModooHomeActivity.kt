@@ -35,8 +35,8 @@ class ModooHomeActivity : AppCompatActivity(), BottomNavigationView.OnNavigation
 
         mnsv_home_pick.run {
             header = tv_home_sticky
-            stickListener = {v, i -> Log.i("tagg","stick!!!!${v.getId()} , ${i}")}
-            freeListener = {Log.i("tagg","free!!!!")}
+            stickListener = {v, i ->}
+            freeListener = {}
         }
 
         expl_home.onExpandListener = object : OnExpandListener{
