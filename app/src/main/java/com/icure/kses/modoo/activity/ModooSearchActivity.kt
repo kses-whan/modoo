@@ -28,7 +28,7 @@ class ModooSearchActivity : AppCompatActivity() {
     private var modooRecyclerViewAdapter: ModooRecyclerViewAdapter? = null
     private val prefManager: PrefManager by lazy { PrefManager(this@ModooSearchActivity)}
     private val context: Context = this@ModooSearchActivity
-    private val databaseHelper = ModooDatabaseHelper(this@ModooSearchActivity)
+    private val databaseHelper = ModooDatabaseHelper.getInstance(this@ModooSearchActivity)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -86,7 +86,6 @@ class ModooSearchActivity : AppCompatActivity() {
 
 
         if (rv_search_result?.adapter == null) {
-            Log.i("tagg","11111111111111")
             setupRecyclerView(items)
         } else {
             //기존리스트에 추가
@@ -186,7 +185,6 @@ class ModooSearchActivity : AppCompatActivity() {
             }
 
             override fun onNothingSelected(parent: AdapterView<*>?) {
-                TODO("Not yet implemented")
             }
         }
         sp_search_header_align.setSelection(0)

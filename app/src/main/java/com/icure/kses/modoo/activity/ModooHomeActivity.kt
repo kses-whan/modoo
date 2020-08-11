@@ -6,7 +6,10 @@ import android.util.Log
 import android.view.MenuItem
 import android.view.View
 import android.view.animation.LinearInterpolator
+import android.widget.RelativeLayout
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.app.AppCompatViewInflater
+import androidx.cardview.widget.CardView
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.DefaultItemAnimator
@@ -20,7 +23,9 @@ import com.icure.kses.modoo.model.ModooViewModel
 import com.icure.kses.modoo.vo.ModooListItem
 import com.skydoves.expandablelayout.OnExpandListener
 import kotlinx.android.synthetic.main.activity_home.*
+import kotlinx.android.synthetic.main.home_title.*
 import kotlinx.android.synthetic.main.search_bar.*
+import kotlinx.android.synthetic.main.search_bar.view.*
 
 class ModooHomeActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemSelectedListener, CardStackListener {
 
@@ -30,6 +35,10 @@ class ModooHomeActivity : AppCompatActivity(), BottomNavigationView.OnNavigation
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_home)
+
+        var searchCardView = layoutInflater.inflate(R.layout.search_bar, null) as CardView
+        var layoutParams = RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, RelativeLayout.LayoutParams.MATCH_PARENT)
+        rl_abl_container.addView(searchCardView, layoutParams)
 
         bnv_view.setOnNavigationItemSelectedListener(this)
 
@@ -53,7 +62,7 @@ class ModooHomeActivity : AppCompatActivity(), BottomNavigationView.OnNavigation
         vp_home_pick?.adapter = PickViewPagerAdapter(this@ModooHomeActivity)
         di_home_pick.attachViewPager(vp_home_pick)
 
-        tv_searchbar_text.setOnClickListener { startActivity(Intent(this, ModooSearchActivity::class.java)) }
+        searchCardView.tv_searchbar_text.setOnClickListener { startActivity(Intent(this, ModooSearchActivity::class.java)) }
 
         moDooViewModel?.getItemListData(2)?.observe(this, Observer {
             it?.let {

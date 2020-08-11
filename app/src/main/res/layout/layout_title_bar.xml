@@ -15,9 +15,6 @@
         android:layout_height="60dp"
         app:layout_scrollFlags="scroll|enterAlways"
         android:padding="8dp">
-
-        <!--<include layout="@layout/search_bar"/>-->
-
     </RelativeLayout>
 
 </com.google.android.material.appbar.AppBarLayout>

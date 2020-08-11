@@ -780,7 +780,7 @@ class ModooSearchView @JvmOverloads constructor(private val mContext: Context, a
      */
     @Synchronized
     fun saveQueryToDb(query: String?, ms: Long) {
-        databaseHelper.insertSuggestion(query, ms)
+        databaseHelper?.insertSuggestion(query, ms)
     }
 
     /**
@@ -808,7 +808,7 @@ class ModooSearchView @JvmOverloads constructor(private val mContext: Context, a
      */
     @Synchronized
     fun removeSuggestion(suggestion: String) {
-        databaseHelper.removeSuggestion(suggestion)
+        databaseHelper?.removeSuggestion(suggestion)
     }
 
     /**
@@ -834,7 +834,7 @@ class ModooSearchView @JvmOverloads constructor(private val mContext: Context, a
 
     @Synchronized
     fun addSuggestions(suggestions: List<String?>) {
-        databaseHelper.insertSuggestions(suggestions)
+        databaseHelper?.insertSuggestions(suggestions)
     }
 
     fun addSuggestions(suggestions: Array<String?>) {
@@ -843,10 +843,10 @@ class ModooSearchView @JvmOverloads constructor(private val mContext: Context, a
     }
 
     val historyList: MutableList<SuggestionItem>?
-        get() = databaseHelper.selectAllHistory()
+        get() = databaseHelper?.selectAllHistory()
 
     fun searchQueryList(query:String): MutableList<SuggestionItem>?{
-        return databaseHelper.selectSearchQuery(query)
+        return databaseHelper?.selectSearchQuery(query)
     }
 
     private fun refreshAdapterCursor() {
@@ -957,7 +957,7 @@ class ModooSearchView @JvmOverloads constructor(private val mContext: Context, a
 
     //endregion
     //region Constructors
-    val databaseHelper by lazy { ModooDatabaseHelper(context) }
+    val databaseHelper by lazy { ModooDatabaseHelper.getInstance(context) }
 
     init {
         init()

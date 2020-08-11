@@ -48,7 +48,7 @@ class ModooSplashActivity : Activity(), AnimationListener {
         linearLayout?.startAnimation(animFadeIn)
 
         // DB 초기화
-        ModooDatabaseHelper(this)
+//        ModooDatabaseHelper.getInstance(this)
 
         // Push 초기화
         initFCM()

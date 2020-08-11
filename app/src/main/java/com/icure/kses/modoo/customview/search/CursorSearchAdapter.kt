@@ -29,9 +29,9 @@ class CursorSearchAdapter(
         val modooSearchView: ModooSearchView
 ) : RecyclerView.Adapter<CursorSearchAdapter.ListViewHolder>() {
 
-    init {
-        val databaseHelper = ModooDatabaseHelper(context)
-    }
+//    init {
+//        val databaseHelper = ModooDatabaseHelper.getInstance(context)
+//    }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ListViewHolder {
         return ListViewHolder(LayoutInflater.from(context).inflate(R.layout.suggestion_list_item, parent, false) as CardView)
